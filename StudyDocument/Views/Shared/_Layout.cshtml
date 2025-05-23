@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from demo.voidcoders.com/htmldemo/eventdia/main-files/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 08 May 2025 01:34:43 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Home V1 | Eventdia Creative Agency Html5 Template</title>
+	<!-- Mobile Specific Meta  -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!--- Font-->
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&amp;display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&amp;display=swap" rel="stylesheet">
+	<!-- CSS -->
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+	<!-- Jquery ui CSS -->
+	<link rel="stylesheet" href="~/assets/css/jquery-ui.css">
+	<!-- Fancybox CSS -->
+	<link rel="stylesheet" href="~/assets/css/jquery.fancybox.min.css">
+	<!-- Font Awesome CSS -->
+	<link rel="stylesheet" href="~/assets/css/font-awosome.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+	<!-- Flaticon CSS -->
+	<link rel="stylesheet" href="~/assets/flat-font/flaticon.css">
+	<!-- Slick Slider -->
+	<link rel="stylesheet" href="~/assets/slick/slick-theme.css">
+	<link rel="stylesheet" href="~/assets/slick/slick.css">
+	<!-- Ticker css-->
+	<link rel="stylesheet" href="~/assets/css/ticker.min.css">
+	<!-- Nav Menu CSS -->
+	<link rel="stylesheet" href="~/assets/css/sm-core-css.css">
+	<link rel="stylesheet" href="~/assets/css/sm-mint.css">
+	<link rel="stylesheet" href="~/assets/css/sm-style.css">
+	<!-- Animate CSS -->
+	<link rel="stylesheet" href="~/assets/css/animate.min.css">
+	<!-- Main StyleSheet CSS -->
+	<link rel="stylesheet" href="~/assets/css/style.css">
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" sizes="16x16" href="~/assets/img/fab-icon.png">
+
+</head>
+
+<body>
+	<!---Preloder-->
+	<div id="preloader-1"></div>
+	<!-- /Preloder-->
+	<!-- /Pages Settings -->
+	<!--Scroll Top-->
+	<div class="scrollup"><i class="fas fa-long-arrow-alt-up scrollup-icon"></i></div>
+	<!--Scroll Top-->
+	@await Component.InvokeAsync("Header")
+	@RenderBody()
+	@await Component.InvokeAsync("Footer")
+
+	<!-- Scripts -->
+	<script src="~/assets/js/jquery-3.4.1.min.js"></script>
+	<script src="~/assets/js/bootstrap.min.js"></script>
+	<script src="~/assets/js/jquery-ui.js"></script>
+	<script src="~/assets/js/jquery.smartmenus.js"></script>
+	<script src="~/assets/slick/slick.min.js"></script>
+	<script src="~/assets/js/jquery.counterup.min.js"></script>
+	<script src="~/assets/js/countdown.js"></script>
+	<script src="~/assets/js/waypoints.min.js"></script>
+	<script src="~/assets/js/jquery.fancybox.min.js"></script>
+	<script src="~/assets/js/ticker.min.js"></script>
+	<script src="~/assets/js/wow.min.js"></script>
+	<script src="~/assets/js/theme.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

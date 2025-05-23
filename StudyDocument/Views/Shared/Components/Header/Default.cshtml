@@ -1,0 +1,114 @@
+﻿
+<!-- Header Area-->
+  <style>
+    .header-area {
+        background-color: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .header-area .nav-link {
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+            .header-area .nav-link:hover {
+                color: #007bff;
+            }
+
+    .searchform .form-control {
+        border-radius: 0.25rem 0 0 0.25rem;
+    }
+
+    .searchform .btn {
+        border-radius: 0 0.25rem 0.25rem 0;
+    }
+
+
+  </style>
+<header class="header-area">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
+
+            <!-- Logo -->
+            <div class="logo me-3">
+                <a asp-controller="Home" asp-action="Index">
+                    <img src="@Url.Content("~/assets/img/studyPlatform.jpg")" alt="Study Platform Logo" style="height: 55px; width: auto;" />
+                </a>
+            </div>
+
+            <!-- Menu + Logout/Login + User -->
+            <div class="flex-grow-1 d-flex align-items-center justify-content-between">
+                <!-- Menu -->
+                <nav class="main-nav flex-grow-1">
+                    <ul class="nav gap-3">
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Image" asp-action="GellAllImage">Hình ảnh</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Video" asp-action="GetAllVideo">Video</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Document" asp-action="GetAllDocument">Tài liệu</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Contact">Liên hệ</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">Về chúng tôi</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="FAQ">FAQ</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Login/Logout + User info -->
+                <div class="d-flex align-items-center gap-3">
+                    @if (User.IsInRole("AdminRole"))
+                    {
+                        <a class="btn btn-danger btn-sm" asp-controller="Admin" asp-action="Logout">Đăng xuất Admin</a>
+                    }
+                    else if (User.IsInRole("UserRole"))
+                    {
+                        <a class="btn btn-danger btn-sm" asp-controller="User" asp-action="Logout">Đăng xuất User</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-success btn-sm" asp-controller="Admin" asp-action="Login">Đăng nhập Admin</a>
+                        <a class="btn btn-outline-primary btn-sm" asp-controller="User" asp-action="Login">Đăng nhập User</a>
+                    }
+
+                    <div class="user-box d-flex align-items-center">
+                        <div class="image me-2">
+                            <img src="@User.Claims.FirstOrDefault(c => c.Type == "avatar")?.Value" alt="Avatar"
+                                 style="width: 30px; height: 30px; border-radius: 50%;" />
+                        </div>
+                        <div class="info">
+                            <span class="text-nowrap">@User.Claims.FirstOrDefault(c => c.Type == "fullname")?.Value (@User.Identity.Name)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search bar dưới menu -->
+        <div class="searchform mt-3">
+            <form asp-action="Index" asp-controller="Search" method="get">
+                <div class="input-group">
+                    <input type="text" name="searchTerm" class="form-control" placeholder="Tìm kiếm" />
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-secondary">
+                            <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</header>
+
+@section Script{
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            const isAdmin = '@User.IsInRole("AdminRole")'.toLowerCase() === 'true';
+            const isUser = '@User.IsInRole("UserRole")'.toLowerCase() === 'true';
+
+            if (isAdmin || isUser) {
+                document.getElementById('btnAdminLogin1')?.classList.add('d-none');
+                document.getElementById('btnAdminLogin2')?.classList.add('d-none');
+            }
+        });
+    </script>
+
+}
+<!--/Header Area-->

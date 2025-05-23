@@ -1,0 +1,97 @@
+﻿@model Contact
+@{
+    ViewData["Title"] = "About";
+    Layout = "_Layout";
+}
+
+<main>
+    <!-- Hero Section-->
+    <section class="inner-hero inner-hero4">
+        <div class="container-fluid">
+            <div class="ih-content">
+                <h1 class="wow fadeInUp" data-wow-delay=".4s">Liên hệ</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb wow fadeInUp" data-wow-delay=".8s">
+                        <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a asp-action="Contact" asp-controller="Home">Liên hệ</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- /Hero Section-->
+    <!--contact Us Section-->
+    <section class="contact-us">
+        <div class="container">
+            <div class="contact-us-de-info">
+                @foreach(var ct in ViewBag.ContactList)
+                {
+                    <div class="single-contact-details">
+                        <h5>Phone:</h5>
+                        <p><a href="tel:@ct.Phone">@ct.Phone</a></p>
+
+                    </div>
+                    <div class="single-contact-details">
+                        <h5>Gửi Email:</h5>
+                        <p><a href="mailto:@ct.Email">@ct.Email</a></p>
+                    </div>
+
+                    <div class="single-contact-details">
+                        <h5>Address:</h5>
+                        <p><a href="https://maps.app.goo.gl/KKpeE2DEiL9zUKzx8">@ct.Address</a></p>
+                    </div>
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-6 order-md-1 order-2">
+                    <div class="map">
+                        <div class="" id="googleMap">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3369.71703686023!2d105.78092597471479!3d21.046344487175435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab3b4220c2bd%3A0x1c9e359e2a4f618c!2sPolytechnic%20Aptech!5e1!3m2!1sen!2s!4v1746956596898!5m2!1sen!2s" width="500" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 order-md-2 order-1">
+                    <div class="contact-information contact-information-2">
+                        <h2>Send Us A Message Now!</h2>
+                        <form asp-controller="Home" asp-action="Contact" enctype="multipart/form-data">
+
+                            <input type="number" asp-for="Id" hidden/>
+
+                            <div class="form-group cfdb1">
+                                <input type="text" class="form-control cp1" asp-for="Name" id="name" placeholder="Nhập vào họ và tên">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group cfdb1">
+                                <input type="text" class="form-control cp1" asp-for="Email" id="email"
+                                       placeholder="Nhập vào địa chỉ email">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group cfdb1">
+                                <input type="number" class="form-control cp1" asp-for="Phone" id="phone"
+                                       placeholder="Nhập vào số điện thoại">
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            <div class="form-group cfdb1">
+                                <textarea rows="8" class="form-control cp1" asp-for="Message" id="msg" placeholder="Nhập vào nội dung"
+                                         ></textarea>
+                                <span asp-validation-for="Message" class="text-danger"></span>
+                            </div>
+                            <button type="submit"> Gửi </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--/contact Us Section-->
+</main>
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+

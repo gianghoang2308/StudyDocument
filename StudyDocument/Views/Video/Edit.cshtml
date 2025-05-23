@@ -1,0 +1,151 @@
+﻿@{
+    Layout = "AdminLayout";
+    ViewData["Title"] = "EditVideo";
+}
+@model StudyDocument.Models.Video
+
+<div class="container-fluid">
+    <h4><strong>Chỉnh sửa</strong></h4>
+    <form asp-action="Edit" asp-controller="Video" method="post" enctype="multipart/form-data">
+        <!-- Nút gửi -->
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Video" asp-action="Index"> <b>Quay lại</b>></a>
+                    <button type="submit" class="btn btn-success"><b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+        
+        <input type="number" class="form-control" asp-for="Id" hidden />
+
+        <div class="mb-3">
+            <label class="form-label">Tiêu đề video</label>
+            <input type="text" class="form-control" asp-for="Title" />
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label">Mô tả</label>
+            <textarea class="form-control" asp-for="Description">@Model.Description</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CategoryId">Tên loại</label>
+            <select id="CategoryId" class="form-control" name="CategoryId">
+                <option value="">--Select--</option>
+
+                @foreach (var cat in ViewBag.CategoryList)
+                {
+                    
+                  <option value="@cat.Id" selected>@cat.Name</option>
+                   
+                }
+                <option value="">No categories available</option>
+            </select>
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label">Choose Video Type</label>
+            <select id="videoTypeSelect" class="form-control" onchange="toggleInputFields()">
+                @if (Model.Video1 == "Link")
+                {
+                    <option value="link" selected>Link</option>
+                    <option value="upload">Upload File</option>
+                }
+                else
+                {
+                    <option value="link">Link</option>
+                    <option value="upload" selected>Upload File</option>
+                }
+            </select>
+        </div>
+
+
+        <div id="videoInput" class="mb-3">
+            <label class="form-label">Upload File</label>
+            @if (Model.VideoData != null && Model.VideoData.Length > 0)
+            {
+                var base64Video = Convert.ToBase64String(Model.VideoData);
+                var mimeType = Model.VideoType ?? "video/mp4";
+                <video width="200" height="150" controls>
+                    <source src="data:@mimeType;base64,@base64Video" type="@mimeType" />
+                </video>
+            }
+            <input type="file" class="form-control" asp-for="Video1" id="videoEditor" />
+        </div>
+
+
+        <div id="linkInput" class="mb-3">
+            <label class="form-label">Link</label>
+            @if (!string.IsNullOrEmpty(Model.Link))
+            {
+                <iframe width="200" height="150" src="@Model.Link" title="@Model.Title" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            }
+            <input class="form-control" asp-for="Link" value="@Model.Link" />
+        </div>
+
+        <input type="hidden" name="oldVideo" value="@Model.Video1" />
+        <input type="hidden" name="oldLink" value="@Model.Link" />
+        <input type="hidden" name="oldVideoType" value="@Model.VideoType" />
+
+        <div class="mb-3 mt-3">
+            <label asp-for="Status">Trạng thái</label>
+            <select asp-for="Status" class="form-control">
+                @if (Model.Status)
+                {
+                    <option value="true" selected>Khả dụng</option>
+                    <option value="false">Không khả dụng</option>
+                }
+                else
+                {
+                    
+                    <option value="true" selected>Khả dụng</option>
+                    <option value="false">Không khả dụng</option>
+                    
+                }
+            </select>
+        </div>
+
+        <!-- Nút gửi -->
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Video" asp-action="Index"> <b>Quay lại</b>></a>
+                    <button type="submit" class="btn btn-success"><b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleInputFields() {
+            const selectedType = document.getElementById("videoTypeSelect").value;
+            const linkDiv = document.getElementById("linkInput");
+            const videoDiv = document.getElementById("videoInput");
+
+            if (selectedType === "link") {
+                linkDiv.style.display = "block";
+                videoDiv.style.display = "none";
+            } else if (selectedType === "upload") {
+                linkDiv.style.display = "none";
+                videoDiv.style.display = "block";
+            } else {
+                linkDiv.style.display = "none";
+                videoDiv.style.display = "none";
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", toggleInputFields);
+    </script>
+}
+

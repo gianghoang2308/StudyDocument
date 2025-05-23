@@ -1,0 +1,150 @@
+﻿@model StudyDocument.Models.Image
+
+@{
+    ViewData["Title"] = "Edit Image";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Edit Image</h1>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <!-- Buttons -->
+    <div class="table-title" style="margin-top:20px">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2 style="color:black"></h2>
+            </div>
+            <div class="col-sm-6">
+                <a class="btn btn-primary" asp-controller="Video" asp-action="Index"><b>Quay lại</b></a>
+                <button type="submit" class="btn btn-success"><b>Lưu lại</b> </button>
+            </div>
+        </div>
+    </div>
+    <input type="number" class="form-control" asp-for="Id" hidden />
+
+    <div class="form-group">
+        <label asp-for="Name">Tên ảnh</label>
+        <input asp-for="Name" class="form-control" placeholder="Nhập vào tên ảnh" />
+        <span asp-validation-for="Name" class="text-danger" value="@Model.Name"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId">Tên loại</label>
+        <select id="CategoryId" class="form-control" name="CategoryId">
+            <option value="">--Select--</option>
+            @foreach (var cat in ViewBag.CategoryList)
+            {
+                @if (cat.Id == Model.CategoryId)
+                {
+                    <option value="@cat.Id" selected>@cat.Name</option>
+                }
+                else
+                {
+                    <option value="@cat.Id">@cat.Name</option>
+                }
+
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="UploadMethod">Chọn phương thức thêm ảnh</label>
+        <select id="UploadMethod" class="form-control" onchange="toggleUploadFields()">
+            @{
+                var isLink = Model.Image1 == "Link";
+            }
+            @if (isLink)
+            {
+                <option value="link" selected>Nhập đường dẫn ảnh (URL)</option>
+                <option value="file">Tải ảnh từ máy</option>
+            }
+            else
+            {
+                <option value="link">Nhập đường dẫn ảnh (URL)</option>
+                <option value="file" selected>Tải ảnh từ máy</option>
+            }
+        </select>
+    </div>
+
+
+
+    <div class="form-group" id="LinkField">
+        <label asp-for="Link">Đường dẫn ảnh</label>
+        <input asp-for="Link" class="form-control" />
+        <span asp-validation-for="Link" class="text-danger" value="@Model.Link"></span>
+    </div>
+
+
+    <div class="form-group">
+        @if (Model.Image1 == "Link" && !string.IsNullOrEmpty(Model.Link))
+        {
+            <label>Ảnh</label>
+            <img src="@Model.Link" alt="Image from link" width="200" height="150" />
+            <p><strong>Link:</strong> @Model.Link</p>
+        }
+        else if (!string.IsNullOrEmpty(Model.Image1))
+        {
+            <label>Ảnh từ File Upload</label>
+            <img src="@Url.Content("~/uploads/images/" + Model.Image1)" alt="Uploaded image" width="200" height="150" />
+            <input type="file" asp-for="Image1" class="form-control" />
+            <p><strong>File name:</strong> @Model.Image1</p>
+        }
+        else
+        {
+            <span>Chưa có ảnh</span>
+        }
+
+
+        <input type="hidden" name="oldImage" value="@Model.Image1" />
+        <input type="hidden" name="oldLink" value="@Model.Link" />
+        <input type="hidden" name="oldImageType" value="@Model.ImageType" />
+    </div>
+
+
+    <div class="mb-3">
+        <label class="form-label">Create time</label>
+        <input class="form-control" type="date" asp-for="CreateTime" value="@Model.CreateTime.ToString("yyyy-MM-dd")" />
+        <p>Time Create: @Model.CreateTime.ToString("dd-MM-yyyy")</p>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label asp-for="Status">Status</label>
+        <select asp-for="Status" class="form-control">
+            <option value= "true" selected>Active</option>
+            <option value= "false">Inactive</option>
+        </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+
+    <!-- Buttons -->
+    <div class="table-title" style="margin-top:20px">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2 style="color:black"></h2>
+            </div>
+            <div class="col-sm-6">
+                <a class="btn btn-primary" asp-controller="Video" asp-action="Index"><b>Quay lại</b></a>
+                <button type="submit" class="btn btn-success"><b>Lưu lại</b> </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        function toggleUploadFields() {
+            var method = document.getElementById("UploadMethod").value;
+            if (method === "link") {
+                document.getElementById("LinkField").style.display = "block";
+                document.getElementById("FileField").style.display = "none";
+            } else {
+                document.getElementById("LinkField").style.display = "none";
+                document.getElementById("FileField").style.display = "block";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            toggleUploadFields();
+        });
+    </script>
+}

@@ -1,0 +1,141 @@
+﻿@model StudyDocument.Models.User
+@{
+    ViewData["Title"] = "UserRegister";
+}
+
+<style>
+    select.form-control {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        z-index: 100;
+        position: relative;
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="~/login/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="~/login/css/style.css">
+</head>
+<body>
+
+    <div class="main">
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Đăng ký</h2>
+                        <form asp-controller="User" asp-action="Register" method="POST" class="register-form" id="register-form" enctype="multipart/form-data">
+                            <input type="hidden" class="form-control" asp-for="Id" hidden />
+
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" asp-for="UserName" id="name" placeholder="Nhập vào tên đăng ký" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" asp-for="Email" id="email" placeholder="Nhập vào email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" asp-for="Password" id="pass" placeholder="Password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fullname"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" asp-for="FullName" id="fullname" placeholder="Nhập vào họ và tên" />
+                                <span asp-validation-for="FullName" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dob"><i class="zmdi zmdi-calendar"></i></label>
+                                <input type="date" asp-for="DateOfBirth" id="dob" placeholder="Nhập vào ngày sinh" />
+                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address"><i class="zmdi zmdi-pin"></i></label>
+                                <input type="text" asp-for="Address" id="address" placeholder="Nhập vào địa chỉ" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone"><i class="zmdi zmdi-account-box-phone"></i></label>
+                                <input type="number" asp-for="Phone" id="phone" placeholder="Nhập vào số điện thoại" />
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="idcard"><i class="zmdi zmdi-card"></i></label>
+                                <input type="number" asp-for="IdCard" id="idcard" placeholder="Nhập vào số CCCD/ CMND / CMT" />
+                                <span asp-validation-for="IdCard" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dateissue"><i class="zmdi zmdi-calendar"></i></label>
+                                <input type="date" asp-for="DateOfIssue" id="dateissue" placeholder="Nhập vào Ngày cấp CCCD/ CMND / CMT" />
+                                <span asp-validation-for="DateOfIssue" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="placeissue"><i class="zmdi zmdi-pin-drop"></i></label>
+                                <select asp-for="PlaceOfIssue" id="placeissue" class="form-control" asp-items="ViewBag.IssuePlaces">
+                                    <option value="">-- Chọn nơi cấp --</option>
+                                </select>
+                                <span asp-validation-for="PlaceOfIssue" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="gender">Giới tính</label>
+                                <select asp-for="Gender" class="form-control" id="gender">
+                                    <option value="true">Nam</option>
+                                    <option value="false">Nữ</option>
+                                </select>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="~/login/images/signup-image.jpg" alt="sign up image"></figure>
+                        <a asp-controller="User" asp-action="Login" class="signup-image-link">Đã có tài khoản rồi</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JS -->
+    <script src="~/login/vendor/jquery/jquery.min.js"></script>
+    <script src="~/login/js/main.js"></script>
+    <script src="~/lib/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+</html>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

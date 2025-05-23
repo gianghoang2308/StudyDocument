@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model SearchModel
+<style>
+    .search-header {
+        font-size: 1.75rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+</style>
+
+<div style="margin-top: 200px">
+    <h2 class="search-header">Kết quả tìm kiếm cho: "@Model.SearchTerm"</h2>
+    @if (Model.ImageList != null && Model.ImageList.Any())
+    {
+        <div class="row justify-content-center">
+            @foreach (var img in Model.ImageList)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="sb-img">
+                            @if (!string.IsNullOrEmpty(img.Link))
+                            {
+                                <img src="@Url.Content(img.Link)" alt="@img.Name Error" title="@img.Name" class="card-img-top img-fluid" />
+                            }
+                            else if (!string.IsNullOrEmpty(img.Image1))
+                            {
+                                <img src="@Url.Content("~/uploads/images/" + img.Image1)" alt="@img.Name error" title="@img.Name" class="card-img-top img-fluid" />
+                            }
+                            else
+                            {
+                                <div class="text-muted p-3">No image available</div>
+                            }
+                        </div>
+                        <div class="card-body">
+                            <span class="text-muted">@img.CreateTime.ToString("yyyy-MM-dd")</span>
+                            <h5 class="card-title mt-2">@img.Name</h5>
+                            <p class="card-text">This presentation will describe seven essential actions that could unleash the power of...</p>
+                            <a asp-controller="Image" asp-action="Detail" asp-route-id="@img.Id" class="btn btn-outline-primary btn-sm">READ MORE</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+
+    @if (Model.VideoList != null && Model.VideoList.Any())
+    {
+        <div class="row justify-content-center">
+            @foreach (var video in Model.VideoList)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="ratio ratio-16x9">
+                            @if (!string.IsNullOrEmpty(video.Link))
+                            {
+                                <iframe src="@video.Link"
+                                        title="@video.Title"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        referrerpolicy="strict-origin-when-cross-origin"
+                                        allowfullscreen>
+                                </iframe>
+                            }
+                            else if (video.VideoData != null && video.VideoData.Length > 0)
+                            {
+                                var base64Video = Convert.ToBase64String(video.VideoData);
+                                var mimeType = video.VideoType ?? "video/mp4";
+                                <video controls class="w-100 h-100">
+                                    <source src="data:@mimeType;base64,@base64Video" type="@mimeType" />
+                                </video>
+                            }
+                            else
+                            {
+                                <div class="text-muted p-3">Không có video để hiển thị</div>
+                            }
+                        </div>
+                        <div class="card-body">
+                            <span class="text-muted">@video.CreateTime.ToString("dd/MM/yyyy")</span>
+                            <h5 class="card-title mt-2">@video.Name</h5>
+                            <p class="card-text">@video.Title</p>
+                            <p class="card-text">@video.Description</p>
+                            <a asp-controller="Video" asp-action="Detail" asp-route-id="@video.Id" class="btn btn-outline-primary btn-sm">READ MORE</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    @if (Model.DocumentList != null && Model.DocumentList.Any())
+    {
+        <div class="row justify-content-center">
+            @foreach (var dcm in Model.DocumentList)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <a asp-controller="Document" asp-action="ViewFile" asp-route-id="@dcm.Id" target="_blank" class="btn btn-primary btn-sm me-2">View</a>
+                                <a asp-controller="Document" asp-action="Download" asp-route-id="@dcm.Id" class="btn btn-secondary btn-sm">
+                                    Download <i class="fa-solid fa-download"></i>
+                                </a>
+                            </div>
+                            <span class="text-muted">@dcm.CreateTime.ToString("dd/MM/yyyy")</span>
+                            <h5 class="card-title mt-2">@dcm.Title</h5>
+                            <p class="card-text">@dcm.Description</p>
+                            <a asp-controller="Document" asp-action="Detail" asp-route-id="@dcm.Id" class="btn btn-outline-primary btn-sm">READ MORE</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    @if ((Model.ImageList == null || !Model.ImageList.Any()) &&
+    (Model.VideoList == null || !Model.VideoList.Any()) &&
+    (Model.DocumentList == null || !Model.DocumentList.Any()))
+    {
+        <p class="text-muted">Không tìm thấy kết quả nào.</p>
+    }
+</div>
+
+

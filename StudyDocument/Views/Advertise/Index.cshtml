@@ -1,0 +1,119 @@
+﻿@model X.PagedList.IPagedList<StudyDocument.Models.Advertise>
+@using X.PagedList.Mvc.Core;
+
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-fluid">
+    <h2>Thông tin quảng cáo</h2>
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <a asp-controller="Advertise" asp-action="Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i><b>Thêm mới</b></a>
+                    <a asp-controller="Advertise" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <b>Xóa</b></a>
+                    <a asp-controller="Advertise" asp-action="Index" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i><b>Tải lại trang</b></a>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr style="text-align: center">
+                    <th>
+                        <span class="custom-checkbox">
+                            <!-- "Select All" checkbox -->
+                            <input type="checkbox" id="selectAll" />
+                            <label for="selectAll"></label>
+                        </span>
+                    </th>
+                    <th>ID</th>
+                    <th>Tiêu đề quảng cáo</th>
+                    <th>ImageUrl</th>
+                    <th>VideoUrl</th>
+                    <th>Link liên kết</th>
+                    <th>Trạng thái</th>
+                    <th>Thời gian bắt đầu</th>
+                    <th>Thời gian kết thúc</th>
+                    <th>Ngày tạo</th>
+                    <th>Cài đặt</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ad in Model)
+                {
+                    <tr style="text-align: center">
+                        <td>
+                            <span class="custom-checkbox">
+                                <!-- Individual checkboxes -->
+                                <input type="checkbox" class="checkboxItem" id="checkbox_@ad.Id" name="options[]" value="@ad.Id" />
+                                <label for="checkbox_@ad.Id"></label>
+                            </span>
+                        </td>
+                        <td>@ad.Id</td>
+                        <td>@ad.Title</td>
+                        <td>@ad.ImageUrl</td>
+                        <td>@ad.VideoUrl</td>
+                        <td>@ad.Link</td>
+                        <td>
+                            @if (ad.Status == true)
+                            {
+                                <span>Còn hiệu lực</span>
+                            }
+                            else
+                            {
+                                <span>Hết hạn</span>
+                            }
+                        </td>
+                        <td>@ad.Start.ToString("dd/MM/yyyy")</td>
+                        <td>@ad.End.ToString("dd/MM/yyyy")</td>
+                        <td>@ad.CreateTime.ToString("dd/MM/yyyy")</td>
+
+
+                        <td class="TableView_Function">
+                            <a asp-controller="Advertise" asp-action="Edit" asp-route-id="@ad.Id" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Sửa">&#xE254;</i></a>
+                            <a asp-controller="Advertise" asp-action="Delete" asp-route-id="@ad.Id" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Xóa">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Phân Trang -->
+        <div class="clearfix">
+            <ul class="pagination">
+                <li class="page-item">@Html.PagedListPager(Model, pageNumber => Url.Action("Index", "Advertise", new { pageNumber = pageNumber }))</li>
+            </ul>
+        </div>
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <a asp-controller="Advertise" asp-action="Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i><b>Thêm mới</b></a>
+                    <a asp-controller="Advertise" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <b>Xóa</b></a>
+                    <a asp-controller="Advertise" asp-action="Index" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i><b>Tải lại trang</b></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery to handle the "Select All" functionality -->
+<script>
+    $(document).ready(function() {
+        // Select all checkboxes when "Select All" checkbox is clicked
+        $("#selectAll").click(function() {
+            $(".checkboxItem").prop("checked", this.checked);  // Check all checkboxes
+        });
+
+        // Update the "Select All" checkbox state based on individual checkboxes
+        $(".checkboxItem").click(function() {
+            // If all checkboxes are checked, check the "Select All" checkbox
+            $("#selectAll").prop("checked", $(".checkboxItem:checked").length === $(".checkboxItem").length);
+        });
+    });
+</script>

@@ -1,0 +1,81 @@
+﻿@model StudyDocument.Models.Document
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Create New Document</h1>
+
+<form asp-action="Edit" asp-controller="Document" method="post" enctype="multipart/form-data">
+    <!-- Buttons -->
+    <div class="table-title" style="margin-top:20px">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2 style="color:black"></h2>
+            </div>
+            <div class="col-sm-6">
+                <a class="btn btn-primary" asp-controller="Document" asp-action="Index"> <b>Lưu lại</b> <i class='fas'>&#xf3e5;</i></a>
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <b>Quay lại</b> </button>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Tiêu đề</label>
+        <input type="text" class="form-control" asp-for="Title" placeholder="Nhập vào tiêu đề" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Mô tả</label>
+        <textarea class="form-control" asp-for="Description"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CategoryId">Category Name</label>
+        <select id="CategoryId" class="form-control" asp-for="CategoryId">
+            <option value="">--Select--</option>
+            @foreach (var cat in ViewBag.CategoryList)
+            {
+                <option value="@cat.Id" selected>@cat.Name</option>
+            }
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label class="form-label">Tải tài liệu lên</label>
+        <input type="file" class="form-control" asp-for="File" />
+        <input type="hidden" name="oldFile" value="@Model.File" />
+        @if (Model.File != null)
+        {
+            <div class="mt-2">
+                <strong>Current file:</strong>
+                <a href="@Url.Action("ViewFile", "Document", new { id = Model.Id })" target="_blank">@Model.File</a>
+                <br />
+                <small>Click to upload file if you want to replace</small>
+            </div>
+        }
+        <span asp-validation-for="File" class="text-danger"></span>
+    </div>
+
+    @* <div class="mb-3"> *@
+    @*     <label class="form-label">Thời gian tạo</label> *@
+    @*     <input class="form-control" type="date" asp-for="CreateTime" value="@Model.CreateTime.ToString("yyyy-MM-dd")" /> *@
+    @*     <p>Time Create: @Model.CreateTime.ToString("dd-MM-yyyy")</p> *@
+    @* </div> *@
+
+    <!-- Buttons -->
+    <div class="table-title" style="margin-top:20px">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2 style="color:black"></h2>
+            </div>
+            <div class="col-sm-6">
+                <a class="btn btn-primary" asp-controller="Document" asp-action="Index"> <b>Lưu lại</b> <i class='fas'>&#xf3e5;</i></a>
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <b>Quay lại</b> </button>
+            </div>
+        </div>
+    </div>
+</form>

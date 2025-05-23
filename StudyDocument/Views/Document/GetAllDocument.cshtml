@@ -1,0 +1,190 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+
+@{
+    ViewData["Title"] = "GetAllDocument";
+    Layout = "_Layout";
+}
+<style>
+    .pagination-container {
+        padding: 20px 0;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .pagination {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .page-item {
+        margin: 0 5px;
+    }
+
+    .page-link {
+        background-color: #f8f9fa;
+        color: #007bff;
+        border: 1px solid #ddd;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+        .page-link:hover,
+        .page-link:focus {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+            text-decoration: none;
+        }
+
+    .page-item.active .page-link {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .page-item.disabled .page-link {
+        background-color: #f8f9fa;
+        color: #ccc;
+        pointer-events: none;
+    }
+
+    .page-item .fa {
+        font-size: 16px;
+        color: #007bff;
+    }
+
+        .page-item .fa:hover {
+            color: #0056b3;
+        }
+
+    
+</style>
+<main>
+    <!-- Hero Section-->
+    <section class="inner-hero inner-hero3">
+        <div class="container">
+            <div class="ih-content">
+                <h1 class=" wow fadeInUp" data-wow-delay=".4s">Blog</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb wow fadeInUp" data-wow-delay=".8s">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- /Hero Section-->
+    <!-- Blog Section-->
+    <section class="blog blog-3 inner-blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 order-md-1 order-2">
+                    <div class="row">
+                        @foreach (var dcm in (IPagedList<StudyDocument.Models.Document>)ViewBag.PagedDcms)
+                        {
+                            <div class="col-md-6 mb-4">
+                                <div class="single-blog p-3 border rounded shadow-sm">
+                                    <div class="sb-img mb-2">
+                                        @if (dcm.FileData != null && dcm.FileData.Length > 0)
+                                        {
+                                            <a asp-controller="Document" asp-action="ViewFile" asp-route-id="@dcm.Id" target="_blank" class="btn btn-sm btn-primary me-2">View</a>
+                                            <a asp-controller="Document" asp-action="Download" asp-route-id="@dcm.Id" class="btn btn-sm btn-success">Download</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No file uploaded</span>
+                                        }
+                                    </div>
+
+                                    <div class="sb-content">
+                                        <span class="text-secondary d-block mb-2">@dcm.CreateTime.ToString("dd-MM-yyyy")</span>
+                                        <h3>
+                                            <a asp-controller="Document" asp-action="Detail" asp-route-id="@dcm.Id" class="text-dark">@dcm.Title</a>
+                                        </h3>
+                                        <p class="text-muted">
+                                            When using it correctly, Social Media can be a very powerful and cost-efficient way to promote your
+                                            event. social media tips to promote your
+                                        </p>
+                                        <a asp-controller="Document" asp-action="Detail" asp-route-id="@dcm.Id" class="btn btn-outline-secondary btn-sm mt-2">READ MORE</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Phân Trang -->
+                    @Html.PagedListPager((IPagedList)ViewBag.PagedDcms, page => Url.Action("GetAllDocument", new { pageNumber = page }),
+                             new PagedListRenderOptions
+                    {
+                        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                        LinkToPreviousPageFormat = "<i class='fas fa-chevron-left'></i>",
+                        LinkToNextPageFormat = "<i class='fas fa-chevron-right'></i>",
+                        LinkToFirstPageFormat = "<i class='fas fa-angle-double-left'></i>",
+                        LinkToLastPageFormat = "<i class='fas fa-angle-double-right'></i>",
+                        ContainerDivClasses = new[] { "pagination-container" },
+                        UlElementClasses = new[] { "pagination justify-content-center" },
+                        LiElementClasses = new[] { "page-item" },
+                        PageClasses = new[] { "page-link" }
+                    })
+
+
+                </div>
+
+                <div class="col-md-4 order-md-2 order-1">
+                    <div class="blog-sidebar">
+                        @foreach (var dcm in ViewBag.RecentDcms)
+                        {
+                            <div class="recent-post mb-4">
+                                <div class="single-recent-blog p-3 border rounded shadow-sm">
+                                    <div class="srb-img mb-2">
+                                        @if (dcm.FileData != null && dcm.FileData.Length > 0)
+                                        {
+                                            <div class="d-flex gap-2">
+                                                <a asp-controller="Document" asp-action="ViewFile" asp-route-id="@dcm.Id" target="_blank" class="btn btn-sm btn-info">View</a>
+                                                <a asp-controller="Document" asp-action="Download" asp-route-id="@dcm.Id" class="btn btn-sm btn-success">
+                                                    Download <i class="fa-solid fa-download"></i>
+                                                </a>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No file uploaded</span>
+                                        }
+                                    </div>
+
+                                    <div class="srb-text">
+                                        <h5 class="mb-1">
+                                            <a asp-controller="Document" asp-action="Detail" asp-route-id="@dcm.Id" class="text-dark text-decoration-none">
+                                                @dcm.Title
+                                            </a>
+                                        </h5>
+                                        <span class="text-secondary">@dcm.CreateTime.ToString("dd-MM-yyyy")</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="catagory mt-4">
+                            <h4 class="mb-3">Chuyển đến trang</h4>
+                            <ul class="list-unstyled">
+                                <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                                <li><a asp-controller="Image" asp-action="GetAllImage">Hình ảnh</a></li>
+                                <li><a asp-controller="Video" asp-action="GetAllVideo">Video</a></li>
+                                <li><a asp-controller="Document" asp-action="GetAllDocument">Tài liệu</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+    <!-- /Blog Section-->
+</main>
+

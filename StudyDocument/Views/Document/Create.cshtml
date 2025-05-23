@@ -1,0 +1,65 @@
+﻿@model StudyDocument.Models.Document
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Tạo mới tài liệu</h1>
+
+<form asp-action="Create" asp-controller="Document" method="post" enctype="multipart/form-data">
+    <!-- Buttons -->
+    <div class="table-title" style="margin-top:20px">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2 style="color:black"></h2>
+            </div>
+            <div class="col-sm-6">
+                <a class="btn btn-primary" asp-controller="Document" asp-action="Index"> <b>Quay lại</b> <i class='fas'>&#xf3e5;</i></a>
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <b>Lưu lại</b> </button>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Tiêu đề</label>
+        <input type="text" class="form-control" asp-for="Title" placeholder="Nhập vào tiêu đề" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" asp-for="Description" placeholder="Nhập vào mô tả tài liệu"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+   <div class="mb-3">
+        <label asp-for="CategoryId">Tên loại</label>
+        <select id="CategoryId" class="form-control" name="CategoryId">
+            <option value="">--Select--</option>
+            @foreach (var cat in ViewBag.CategoryList)
+            {
+                <option value="@cat.Id">@cat.Name</option>
+            }
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+   </div>
+
+
+    <div class="mb-3">
+        <label class="form-label">Tải tài liệu lên</label>
+        <input type="file" class="form-control" asp-for="File" />
+        <span asp-validation-for="File" class="text-danger"></span>
+    </div>
+
+    <!-- Buttons -->
+    <div class="table-title" style="margin-top:20px">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2 style="color:black"></h2>
+            </div>
+            <div class="col-sm-6">
+                <a class="btn btn-primary" asp-controller="Document" asp-action="Index"> <b>Quay lại</b> <i class='fas'>&#xf3e5;</i></a>
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <b>Lưu lại</b> </button>
+            </div>
+        </div>
+    </div>
+</form>

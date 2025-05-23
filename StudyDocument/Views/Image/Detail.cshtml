@@ -1,0 +1,75 @@
+﻿@model Comment
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <!-- Hero Section-->
+    <section class="inner-hero inner-hero3">
+        <div class="container">
+            <div class="ih-content">
+                <h1 class="wow fadeInUp" data-wow-delay=".4s">Hình ảnh</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb wow fadeInUp" data-wow-delay=".8s">
+                        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Hình ảnh</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- /Hero Section-->
+    <!-- Blog Section-->
+    <section class="blog blog-3 inner-blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 order-md-1 order-2">
+                    <div class="row">
+                        <div class="col-md-12">
+                           <!--Image detail-->
+                            @await Component.InvokeAsync("ImageDetail", new { id = Model.Id })
+                            <div class="get-a-comment">
+                                <!--Get a comment section-->
+                                <h3>Leave a Comment</h3>
+                                
+                                <form asp-controller="Image" asp-action="CreateComment" method="post">
+
+                                    <input type="number" asp-for="ImageId" hidden />  
+
+
+                                    <div class="form-group cfdb1">
+                                        <textarea rows="8" class="form-control cp1" asp-for="Message" id="msg" placeholder="Comment"
+                                        onfocus="this.placeholder =''" onblur="this.placeholder ='Comment'"></textarea>
+                                    </div>
+
+                                    <button type="submit">SUBMIT</button>
+                                </form>
+
+
+                            </div>
+                            <!--End get a comment section-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 order-md-2 order-1">
+                    <div class="blog-sideber">
+                       <!--Recently Posting Images-->
+                        @await Component.InvokeAsync("RecentlyPostingImages")
+                        <div class="catagory">
+                            <h4>Menu</h4>
+                            <ul>
+                                <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                                <li><a asp-controller="Image" asp-action="Index">Hình ảnh</a></li>
+                                <li><a asp-controller="Video" asp-action="Index">Video</a></li>
+                                <li><a asp-controller="Document" asp-action="Index">Tài liệu</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- /Blog Section-->
+</main>

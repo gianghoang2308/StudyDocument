@@ -1,0 +1,143 @@
+﻿@model X.PagedList.IPagedList<StudyDocument.Models.User>
+@using X.PagedList.Mvc.Core;
+
+@{
+    Layout = "AdminLayout";
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-fluid">
+    <h2>Advertise</h2>
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <a asp-controller="User" asp-action="Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <b>Thêm mới</b></a>
+                    <a asp-controller="User" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <b>Xóa</b></a>
+                    <a asp-controller="User" asp-action="Index" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i><b>Tải lại trang</b></a>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="custom-checkbox">
+                            <!-- "Select All" checkbox -->
+                            <input type="checkbox" id="selectAll" />
+                            <label for="selectAll"></label>
+                        </span>
+                    </th>
+                    <th>ID</th>
+                    <th>Tài khoản người dùng</th>
+                    <th>Tên người dùng</th>
+                    <th>Ngày sinh</th>
+                    <th>Địa chỉ</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Giới tính</th>
+                    <th>Trạng thái</th>
+                    <th>Ảnh đại diện</th>
+                    @* <th>Image1</th> *@
+                    @* <th>Image2</th> *@
+                    @* <th>Image3<th> *@
+                    <th>Thời gian tạo<th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>
+                            <span class="custom-checkbox">
+                                <!-- Individual checkboxes -->
+                                <input type="checkbox" class="checkboxItem" id="checkbox_@user.Id" name="options[]" value="@user.Id" />
+                                <label for="checkbox_@user.Id"></label>
+                            </span>
+                        </td>
+                        <td>@user.Id</td>
+                        <td>@user.UserName</td>
+                        <td>@user.FullName</td>
+                        <td>@user.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                        <td>@user.Address</td>
+                        <td>@user.Email</td>
+                        <td>@user.Phone</td>
+                        <td>@if(user.Gender == true)
+                            {
+                                <span>Nam</span>
+                            }
+                            else
+                            {
+                                <span>Nữ</span>
+                            }
+                        </td>
+                        <td>@if(user.Status == true)
+                            {
+                                <span>Hoạt động</span>
+                            }
+                            else
+                            {
+                                <span>Không hoạt động</span>
+                            }
+                        </td>
+                        <td>
+                            <img src="~/uploads/users/@user.Avatar" alt="@user.FullName Error" title="@user.FullName" width="200px" height="200px" />
+                        </td>
+                        @* <td> *@
+                        @*     <img src="@user.Image1" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%;" /> *@
+                        @* </td> *@
+                        @* <td> *@
+                        @*     <img src="@user.Image2" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%;" /> *@
+                        @* </td> *@
+                        @* <td> *@
+                        @*     <img src="@user.Image3" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%;" /> *@
+                        @* </td> *@
+                        <td>@user.CreateTime.ToString("dd/MM/yyyy")</td>
+                        <td class="TableView_Function">
+                            <a asp-controller="User" asp-action="Edit" asp-route-id="@user.Id" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a asp-controller="User" asp-action="Delete" asp-route-id="@user.Id" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Phân Trang -->
+        <div class="clearfix">
+
+            <ul class="pagination">
+                <li class="page-item">@Html.PagedListPager(Model, pageNumber => Url.Action("Index", "User", new { pageNumber = pageNumber }))</li>
+            </ul>
+        </div>
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Quản lý <b>Thành viên</b></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a asp-controller="User" asp-action="Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <b>Thêm mới</b></a>
+                    <a asp-controller="User" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <b>Xóa</b></a>
+                    <a asp-controller="User" asp-action="Index" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i><b>Tải lại trang</b></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery to handle the "Select All" functionality -->
+<script>
+    $(document).ready(function() {
+        // Select all checkboxes when "Select All" checkbox is clicked
+        $("#selectAll").click(function() {
+            $(".checkboxItem").prop("checked", this.checked);  // Check all checkboxes
+        });
+
+        // Update the "Select All" checkbox state based on individual checkboxes
+        $(".checkboxItem").click(function() {
+            // If all checkboxes are checked, check the "Select All" checkbox
+            $("#selectAll").prop("checked", $(".checkboxItem:checked").length === $(".checkboxItem").length);
+        });
+    });
+</script>

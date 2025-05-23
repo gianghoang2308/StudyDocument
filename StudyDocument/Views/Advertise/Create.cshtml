@@ -1,0 +1,94 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@model StudyDocument.Models.Advertise
+<div class="container-fluid">
+    <h4><strong>Thêm mới quảng cáo</strong></h4>
+
+    <form asp-action="Create" asp-controller="Advertise" method="post" enctype="multipart/form-data">
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Advertise" asp-action="Index"><b>Quay lại</b><i class='fas'>&#xf3e5;</i></a>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="hidden" class="form-control" asp-for="Id">
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Title</label>
+            <input type="text" class="form-control" asp-for="Title" placeholder="Nhập vào tiêu đề quảng cáo">
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">ImageUrl</label>
+            <input type="text" class="form-control" asp-for="ImageUrl" placeholder="Nhập vào ImageUrl">
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">VideoUrl</label>
+            <input type="text" class="form-control" asp-for="VideoUrl" placeholder="Nhập vào VideoUrl">
+            <span asp-validation-for="VideoUrl" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Link</label>
+            <input type="text" class="form-control" asp-for="Link" placeholder="Nhập vào Link liên kết">
+            <span asp-validation-for="Link" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label asp-for="Status">Trạng thái</label>
+            <select asp-for="Status" class="form-control">
+                <option value="1" selected>Còn hiệu lực</option>
+                <option value="0">Hết hạn</option>
+            </select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Thời gian bắt đầu</label>
+            <input type="date" class="form-control" asp-for="Start" placeholder="Enter Start Time">
+            <span asp-validation-for="Start" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Thời gian kết thúc</label>
+            <input type="date" class="form-control" asp-for="End" placeholder="Enter End Time">
+            <span asp-validation-for="End" class="text-danger"></span>
+        </div>
+
+        <!-- Nút gửi -->
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Advertise" asp-action="Index"> <b>Quay lại</b> <i class='fas'>&#xf3e5;</i></a>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+

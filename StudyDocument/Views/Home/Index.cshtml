@@ -1,0 +1,291 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+}
+<style>
+    .video-grid {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .video-item {
+        width: 400px;
+        height: 250px;
+    }
+
+        .video-item iframe,
+        .video-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .blog-top h1 {
+        text-align: center;
+        font-size: 36px;
+        margin-bottom: 40px;
+        font-weight: bold;
+    }
+
+    .single-blog {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 30px;
+        transition: all 0.3s ease-in-out;
+        height: 380px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+        .single-blog:hover {
+            transform: translateY(-5px);
+        }
+
+    .sb-img {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+        .sb-img a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 5px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+            .sb-img a:hover {
+                background-color: #0056b3;
+            }
+
+    .sb-content {
+        text-align: center;
+        overflow: auto; 
+        max-height: 200px;
+        padding-right: 5px; 
+    }
+
+        .sb-content span {
+            display: block;
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .sb-content p {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .sb-content a {
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #28a745;
+            text-decoration: none;
+        }
+
+            .sb-content a:hover {
+                text-decoration: underline;
+            }
+</style>
+
+<main>
+    <!-- Hero Section-->
+    <section class="hero-1">
+        <div class="hero-slide1">
+            <div class="slide">
+                <div class="hero-slide-wrapper">
+                    <img src="~/assets/img/hero/studyPlatform-home.jpg" alt="" class="h-bag">
+                    <img src="assets/img/hero/hero-effect.png" alt="" class="hero-effect" data-animation="fadeInUp"
+                         data-delay="0.5s">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="hero-slide-content">
+                                    <h1 data-animation="fadeInUp" data-delay="0.5s" style="text-align:center">Trang Web Phục Vụ Nhu Cầu</h1>
+                                    <h1 data-animation="fadeInUp" data-delay="0.8s" style="text-align:center">Học Tập Và Giải Trí</h1>
+                                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                                        <p data-animation="fadeInUp" data-delay="1.2s" style="text-align:center">
+                                            🎉 Cùng nhau lan tỏa cảm hứng học tập!
+                                        </p>
+                                        <p data-animation="fadeInUp" data-delay="1.2s" style="text-align:center">
+                                            🚀 Bứt phá giới hạn, học mà chơi – chơi mà học!
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /Hero Section-->
+    <!-- About Section-->
+    <section class="about-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="amout-img">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/0x5mf8BUJZY?si=41Y7JFPHdP1JZOlN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="about-content">
+                        <h1>
+                            Chào mừng tới StudyPlatform - nơi mọi người cùng giải trí và trao đổi kiến thức
+                        </h1>
+                        <p>
+                            Tại đây, bạn có thể vừa khám phá kiến thức mới, vừa thư giãn với những nội dung thú vị và sáng tạo.
+                            Chúng tôi xây dựng cộng đồng nơi mọi người cùng chia sẻ, học hỏi và phát triển bản thân mỗi ngày.
+                            Hãy cùng StudyPlatform tạo nên một hành trình học mà vui, vui mà học thật trọn vẹn!
+                        </p>
+                        <a asp-controller="Home" asp-action="About" class="btn-2">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--- /Partner Section-->
+    <!-- Image Section-->
+    <section class="blog">
+        <div class="container">
+            <div class="blog-top">
+                <h1>Hình ảnh</h1>
+            </div>
+            <div class="row">
+                @foreach(var img in ViewBag.ImageList)
+                {
+                    <div class="col-md-4">
+                        <div class="single-blog wow fadeInUp" data-wow-delay=".4s">
+                                <div class="sb-img">
+                                    @if (!string.IsNullOrEmpty(img.Link))
+                                    {
+                                        <img src="@Url.Content(img.Link)" alt="@img.Name Error" title="@img.Name" width="100" />
+
+                                    }
+                                    else if (!string.IsNullOrEmpty(img.Image1))
+                                    {
+                                        <img src="@Url.Content("~/uploads/images/" + img.Image1)" alt="@img.Name error" name="@img.Name" width="100" />
+                                    }
+                                    else
+                                    {
+                                        <span>No image</span>
+                                    }
+                                </div>
+                            <div class="sb-content">
+                                <span>@img.CreateTime.ToString("yyyy-MM-dd") </span>
+                                    <h3>@img.Name</h3>
+                                <p>This presentation will describe seven essential actions that could unleash... ..power of </p>
+                                <a asp-controller="Image" asp-action="Detail" asp-route-id="@img.Id">
+                                    READ MORE
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+    <!-- /Image Section-->
+    <!-- Blog 2 Section-->
+    <section class="blog">
+        <div class="container">
+            <div class="blog-top">
+                <h1>Video</h1>
+            </div>
+            <div class="row">
+               @foreach(var video in ViewBag.VideoList)
+                {
+                    <div class="col-md-4">
+                        <div class="single-blog wow fadeInUp" data-wow-delay=".4s">
+                            <div class="video-grid">
+                                  <div class="video-item">
+
+                                    @if (!string.IsNullOrEmpty(video.Link))
+                                    {
+                                        <iframe src="@video.Link"
+                                                title="@video.Title"
+                                                frameborder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                referrerpolicy="strict-origin-when-cross-origin"
+                                                allowfullscreen>
+                                        </iframe>
+                                    }
+                                    else if (video.VideoData != null && video.VideoData.Length > 0)
+                                    {
+                                        var base64Video = Convert.ToBase64String(video.VideoData);
+                                        var mimeType = video.VideoType ?? "video/mp4";
+                                        <video controls>
+                                            <source src="data:@mimeType;base64,@base64Video" type="@mimeType" />
+                                        </video>
+                                    }
+                                    else
+                                    {
+                                        <span>Không có video để hiển thị</span>
+                                    }
+                                  </div>
+                            </div>
+                             
+                            <div class="sb-content">
+                                <span>@video.CreateTime.ToString("dd/MM/yyyy") </span>
+                                <h3>@video.Name</h3>
+                                <p>@video.Title </p>
+                                <p>@video.Description </p>
+                                <a asp-controller="Video" asp-action="Detail" asp-route-id="@video.Id">READ MORE</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+    <!-- /Blog 2 Section-->
+
+    <!-- Blog 3 Section-->
+    <section class="blog">
+        <div class="container">
+            <div class="blog-top">
+                <h1>Document</h1>
+            </div>
+            <div class="row">
+                @foreach (var dcm in ViewBag.DocumentList)
+                {
+                    <div class="col-md-4">
+                        <div class="single-blog wow fadeInUp" data-wow-delay=".4s">
+                            <div class="sb-img">
+                                <a asp-controller="Document" asp-action="ViewFile" asp-route-id="@dcm.Id" target="_blank">View</a>
+                            </div>
+                            <div class="sb-img">
+                                <a asp-controller="Document" asp-action="Download" asp-route-id="@dcm.Id">Download <i class="fa-solid fa-download"></i></a>
+                            </div>
+                            <div class="sb-content">
+                                <span>@dcm.CreateTime.ToString("dd/MM/yyyy") </span>
+                                <p>@dcm.Title </p>
+                                <p>@dcm.Description </p>
+                                <a asp-controller="Document" asp-action="Detail" asp-route-id="@dcm.Id">READ MORE</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+    <!-- /Blog 3 Section-->
+</main>

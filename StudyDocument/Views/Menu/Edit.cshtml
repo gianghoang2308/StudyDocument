@@ -1,0 +1,165 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    Layout = "AdminMaster";
+}
+@model StudyDocument.Models.Menu
+<style>
+    .hidePage {
+        display: none; /* Ẩn các phần tử có class "hidePage" */
+    }
+</style>
+
+<div class="container">
+    <h4><strong>QUẢN LÝ DANH MỤC TRANG</strong></h4>
+
+    <form asp-action="Edit" asp-controller="Menu" method="post" enctype="multipart/form-data">
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Menu" asp-action="Index">Trở lại<i class='fas'>&#xf3e5;</i></a>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Lưu lại </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="hidden" class="form-control" asp-for="Id">
+        </div>
+        <!-- Tên trang -->
+        <div class="form-group">
+            <label for="pageName" class="form-label">Tên trang:</label>
+            <input type="text" class="form-control" asp-for="Name">
+            <span asp-validation-for="Name" class="text-danger"></span> <!-- Hiển thị lỗi nếu có -->
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Kiểu trang:</label>
+            <select id="pageType" class="form-check-inline">
+                <option value="linkPage">Trang liên kết</option>
+                <option value="ckeditorPage">Trang sử dụng CKEditor</option>
+            </select>
+            <span asp-validation-for="Type" class="text-danger"></span>
+        </div>
+        <div class="form-group" id="ckeditorContainer" style="display: none;">
+            <label for="contentEditor" class="form-label">Nội dung:</label>
+            <textarea id="contentEditor" asp-for="Detail" class="form-control"></textarea>
+        </div>
+
+        <!-- Trang nội dung -->
+        <div class="form-group hidePage" id="contentPageGroup">
+            <label for="pageInfoInput" class="form-label">Thông tin trang nội dung:</label>
+            <input type="text" class="form-control" asp-for="Content" id="pageInfoInput">
+            <span asp-validation-for="Content" class="text-danger"></span> <!-- Hiển thị lỗi nếu có -->
+        </div>
+
+        <!-- Kiểu liên kết -->
+        <div class="form-group">
+            <label for="pageLink" class="form-label">Liên kết:</label>
+            <select id="pageLink" class="form-check-inline">
+                <option value="inputLink">Nhập liên kết</option>
+                <option value="moduleLink">Liên kết module</option>
+            </select>
+            <span asp-validation-for="Link" class="text-danger"></span> <!-- Hiển thị lỗi nếu có -->
+        </div>
+
+        <!-- Nhập liên kết -->
+        <div class="form-group hidePage" id="linkInputGroup">
+
+            <input type="text" class="form-control" asp-for="Link" id="pageInfoLink">
+            <span asp-validation-for="Link" class="text-danger"></span> <!-- Hiển thị lỗi nếu có -->
+        </div>
+        <div class="form-group hidePage" id="pageLinkModule">
+            <label class="form-label"><strong>Liên kết module:</strong></label>
+            <select asp-for="Link" class="form-check-inline" id="moduleLinkSelect" onchange="updateLinkInput(this)">
+                <option value="">-- Tất cả --</option>
+                @foreach (var gl in ViewBag.Groups)
+                {
+                    string strurl = "/danh-muc/" + gl.Tag + "_" + gl.Id + ".html";
+                    <option value="@strurl">@gl.Name</option>
+                }
+            </select>
+            <span asp-validation-for="Link" class="text-danger"></span>
+        </div>
+
+
+
+        <div class="form-group hidePage" id="linkInputGroup">
+            <select asp-for="Target" class="form-check-inline">
+                <option value="1">_self</option>
+                <option value="2">_blank</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="pageLink" class="form-label">Kiểu hiển thị:</label>
+            <select id="Target" class="form-check-inline" asp-for="Target">
+                <option value="_self">_self</option>
+                <option value="_blank">_blank</option>
+            </select>
+        </div>
+        <!-- Vị trí hiển thị -->
+        <div class="form-group">
+            <label class="form-label"><b>Vị trí hiển thị</b></label>
+            <select class="form-check-inline" asp-for="Position">
+                <option value="0">Menu trên</option>
+                <option value="1">Menu giữa</option>
+                <option value="2">Menu dưới</option>
+                <option value="3">Giữa dưới</option>
+            </select>
+            <span asp-validation-for="Position" class="text-danger"></span> <!-- Hiển thị lỗi nếu có -->
+        </div>
+
+        <!-- Metadata -->
+        <div class="form-group">
+            <label class="form-label"><b>Title meta</b></label>
+            <input type="text" class="form-control" asp-for="Title">
+            <span asp-validation-for="Title" class="text-danger"></span> <!-- Hiển thị lỗi nếu có -->
+        </div>
+
+        <div class="form-group">
+            <label class="form-label"><b>Description meta</b></label>
+            <textarea class="form-control" asp-for="Description"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span> <!-- Hiển thị lỗi nếu có -->
+        </div>
+
+        <div class="form-group">
+            <label class="form-label"><b>Keyword meta</b></label>
+            <input type="text" class="form-control" asp-for="Keyword">
+            <span asp-validation-for="Keyword" class="text-danger"></span> <!-- Hiển thị lỗi nếu có -->
+        </div>
+
+        <!-- Thứ tự -->
+        <div class="form-group">
+            <label class="form-label"><b>Thứ tự</b></label>
+            <input type="number" class="form-control" asp-for="Ord">
+            <span asp-validation-for="Ord" class="text-danger"></span> <!-- Hiển thị lỗi nếu có -->
+        </div>
+
+        <!-- Trạng thái -->
+        <div class="form-group">
+            <div class="mb-3 mt-3">
+                <label class="form-label">Kích hoạt</label>
+                <input type="checkbox" name="Active" value="1" />
+            </div>
+            <span asp-validation-for="Status" class="text-danger"></span> <!-- Hiển thị lỗi nếu có -->
+        </div>
+
+        <!-- Nút gửi -->
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Menu" asp-action="Index">Trở lại<i class='fas'>&#xf3e5;</i></a>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Lưu lại </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

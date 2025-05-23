@@ -1,0 +1,128 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@model StudyDocument.Models.Config
+<div class="container">
+    <h4><strong>Thêm mới</strong></h4>
+
+    <form asp-action="Create" asp-controller="Config" method="post" enctype="multipart/form-data">
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Config" asp-action="Index"><b>Quay lại</b><i class='fas'>&#xf3e5;</i></a>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="number" class="form-control" asp-for="Id" hidden>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong> Mail </strong></label>
+            <input type="email" class="form-control" asp-for="Mail" placeholder="Nhập vào địa chỉ Mail">
+            <span asp-validation-for="Mail" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong> Contact </strong></label>
+            <input type="text" class="form-control" asp-for="Contact" placeholder="Nhập vào Contact">
+            <span asp-validation-for="Contact" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong> Coppyright </strong></label>
+            <input type="text" class="form-control" asp-for="Coppyright" placeholder="Nhập vào Coppyright">
+            <span asp-validation-for="Coppyright" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong> Title </strong></label>
+            <input type="text" class="form-control" asp-for="Title" placeholder="Nhập vào tiêu đề">
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong> Description </strong></label>
+            <input type="text" class="form-control" asp-for="Description" placeholder="Nhập vào mô tả">
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong> Keyword </strong></label>
+            <input type="text" class="form-control" asp-for="Keyword" placeholder="Nhập vào Keyword">
+            <span asp-validation-for="Keyword" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong> Hotline </strong></label>
+            <input type="text" class="form-control" asp-for="Hotline" placeholder="Nhập vào Hotline">
+            <span asp-validation-for="Hotline" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong> Link Facebook </strong></label>
+            <input type="text" class="form-control" asp-for="SocialLink1" placeholder="Nhập vào link Facebook">
+            <span asp-validation-for="SocialLink1" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong> Link Insta </strong></label>
+            <input type="text" class="form-control" asp-for="SocialLink2" placeholder="Nhập vào link Insta">
+            <span asp-validation-for="SocialLink2" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong> Link thread </strong></label>
+            <input type="text" class="form-control" asp-for="SocialLink3" placeholder="Nhập vào link Thread">
+            <span asp-validation-for="SocialLink3" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong> Link Youtube </strong></label>
+            <input type="text" class="form-control" asp-for="SocialLink4" placeholder="Nhập vào link Youtube">
+            <span asp-validation-for="SocialLink4" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong> Link Github </strong></label>
+            <input type="text" class="form-control" asp-for="SocialLink5" placeholder="Nhập vào link Github">
+            <span asp-validation-for="SocialLink5" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong> Link X </strong></label>
+            <input type="text" class="form-control" asp-for="SocialLink6" placeholder="Nhập vào link X">
+            <span asp-validation-for="SocialLink6" class="text-danger"></span>
+        </div>
+
+        <!-- Nút gửi -->
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Config" asp-action="Index"><b>Quay lại</b><i class='fas'>&#xf3e5;</i></a>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+

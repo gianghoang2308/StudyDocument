@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "GetLoginStats";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Thống kê truy cập";
+    var loginCountWeek = ViewData["LoginCountWeek"] ?? 0;
+    var loginCountMonth = ViewData["LoginCountMonth"] ?? 0;
+    var loginCountYear = ViewData["LoginCountYear"] ?? 0;
+}
+
+<h1>GetLoginStats</h1>
+<h2>📊 Thống kê truy cập người dùng</h2>
+
+<div style="padding: 10px;">
+    <p><strong>🗓️ Tổng số người truy cập trong tuần:</strong> @loginCountWeek</p>
+    <p><strong>📅 Tổng số người truy cập trong tháng:</strong> @loginCountMonth</p>
+    <p><strong>📆 Tổng số người truy cập trong năm:</strong> @loginCountYear</p>
+</div>

@@ -1,0 +1,147 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model X.PagedList.IPagedList<StudyDocument.Models.Menu>
+@using X.PagedList.Mvc.Core;
+@{
+}
+@{
+    Layout = "AdminLayout";
+}
+<div class="container-fluid">
+    <h4>Quản lý <b>Trang</b></h4>
+    <div class="table-wrapper">
+        <!-- Phần Tiêu Đề Bảng -->
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- Bạn có thể thêm tiêu đề hoặc thông tin ở đây -->
+                </div>
+                <div class="col-sm-6">
+                    @* Nút hành động: Xóa, Thêm mới, Làm mới *@
+                    <a asp-controller="Page" asp-action="Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add new</span></a>
+                    <a asp-controller="Page" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                    <a asp-controller="Page" asp-action="Index" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i> <span>Refresh</span></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bảng cho Trang -->
+        <table class="table table-hover table-bordered">
+            <thead class="table-success">
+                <tr>
+                    <th>
+                        <span class="custom-checkbox">
+                            <input type="checkbox" id="selectAll" />
+                            <label for="selectAll"></label>
+                        </span>
+                    </th>
+                    <th>Tên trang</th>
+                    <th>Kiểu trang</th>
+                    <th>Liên kết</th>
+                    <th>Kiểu liên kết</th>
+                    <th>Vị trí</th>
+                    <th>Thứ tự</th>
+                    <th>Trạng thái</th>
+                    <th style="text-align:center">Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pages in Model)
+                {
+                    <tr>
+                        <td class="TableView_tdCenter">
+                            <span class="custom-checkbox">
+                                <!-- Individual checkboxes -->
+                                <input type="checkbox" class="checkboxItem" id="checkbox_@pages.Id" name="options[]" value="@pages.Id" />
+                                <label for="checkbox_@pages.Id"></label>
+                            </span>
+                        </td>
+                        @* <td class="TableView_Text">@Html.DisplayName(StringHelper.ShowNameLevel(@pages.Name, @pages.Level))</td> *@
+                        <td class="TableView_TextShort">
+                            @pages.Description
+                        </td>
+                        <td class="TableView_Text">@pages.Link</td>
+                        <td class="TableView_TextShort">
+                            @pages.Target
+                        </td>
+
+                        <td class="TableView_TextShort">
+                            @{
+                                var positionText = pages.Position switch
+                                {
+                                    0 => "Menu trên",
+                                    1 => "Menu giữa",
+                                    2 => "Menu dưới",
+                                    3 => "Giữa dưới",
+                                    _ => "Vị trí khác"
+                                };
+                            }
+                            @positionText
+                        </td>
+
+
+
+                        <td class="TableView_Number">@pages.Ord</td>
+
+                        <td class="TableView_TextShort">
+                            @if (pages.Status == true)
+                            {
+                                <span class="badge bg-success">Kích hoạt</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Tạm khóa</span>
+                            }
+                        </td>
+
+                        <td class="TableView_Function">
+                            <a asp-controller="Page" asp-action="Create" asp-route-id="@pages.Id" asp-route-strLevel="@pages.Level" class="add" data-toggle="modal"><i class="material-icons" title="Thêm cấp">&#xE147;</i></a>
+                            <a asp-controller="Page" asp-action="Edit" asp-route-id="@pages.Id" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Chỉnh sửa">&#xE254;</i></a>
+                            <a asp-controller="Page" asp-action="Delete" asp-route-id="@pages.Id" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Xóa">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Phân Trang -->
+        <div class="clearfix">
+
+            <ul class="pagination">
+                <li class="page-item">@Html.PagedListPager(Model, pageNumber => Url.Action("Index", "Page", new { pageNumber = pageNumber }))</li>
+            </ul>
+        </div>
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Quản lý <b>Thành viên</b></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a asp-controller="Page" asp-action="Create" class="btn btn-success" data-toggle="modal" data-target="#addPageModal"><i class="material-icons">&#xE147;</i> <span>Add new</span></a>
+                    <a asp-controller="Page" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                    <a asp-controller="Page" asp-action="Index" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i> <span>Refresh</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery to handle the "Select All" functionality -->
+<script>
+    $(document).ready(function() {
+        // Select all checkboxes when "Select All" checkbox is clicked
+        $("#selectAll").click(function() {
+            $(".checkboxItem").prop("checked", this.checked);  // Check all checkboxes
+        });
+
+        // Update the "Select All" checkbox state based on individual checkboxes
+        $(".checkboxItem").click(function() {
+            // If all checkboxes are checked, check the "Select All" checkbox
+            $("#selectAll").prop("checked", $(".checkboxItem:checked").length === $(".checkboxItem").length);
+        });
+    });
+</script>
+
+
+
+

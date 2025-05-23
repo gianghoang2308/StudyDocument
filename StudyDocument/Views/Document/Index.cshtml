@@ -1,0 +1,148 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model X.PagedList.IPagedList<StudyDocument.Models.Document>
+@using X.PagedList.Mvc.Core;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <h2>Document</h2>
+    <form method="GET" action="@Url.Action("Index", "Document")">
+        <h2 style="text-align:center">Thanh tìm kiếm</h2>
+        <div class="row mb-3">
+
+            <!-- Description Filter Textbox -->
+            <div class="col-md-3">
+                <label for="description">Mô tả (Description)</label>
+                <input type="text" id="description" name="description" class="form-control"
+                       value="@ViewBag.DescriptionFilter" placeholder="Nhập mô tả..." />
+            </div>
+
+            <!-- Buttons -->
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary mr-2">Lọc</button>
+                <button type="button" class="btn btn-secondary" onclick="resetFilters()">Hủy</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <a asp-controller="Document" asp-action="Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add new</span></a>
+                    <a asp-controller="Document" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                    <a asp-controller="Document" asp-action="" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i><span>Refresh</span></a>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="custom-checkbox">
+                            <input type="checkbox" id="selectAll" />
+                            <label for="selectAll"></label>
+                        </span>
+                    </th>
+                    <th>Id</th>
+                    <th>Tên</th>
+                    <th>Mô tả</th>
+                    <th>Trạng thái</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var dcm in Model)
+                {
+                    <tr>
+                        <td>
+                            <span class="custom-checkbox">
+                                <!-- Individual checkboxes -->
+                                <input type="checkbox" class="checkboxItem" id="checkbox_@dcm.Id" name="options[]" value="@dcm.Id" />
+                                <label for="checkbox_@dcm.Id"></label>
+                            </span>
+                        </td>
+                        <td>@dcm.Id</td>
+                        <td>@dcm.Title</td>
+                        <td>@dcm.Description</td>
+                        <td>@dcm.File</td>
+                        <td>
+                            @if (dcm.FileData != null)
+                            {
+
+                                <a asp-controller="Document" asp-action="ViewFile" asp-route-id="@dcm.Id" target="_blank">View</a>
+                                <a asp-controller="Document" asp-action="Download" asp-route-id="@dcm.Id">Download</a>
+
+            
+                            }
+                            else
+                            {
+                                <span>No file uploaded</span>
+                            }
+                        </td>
+                        <td>@dcm.CreateTime.ToString("dd-MM-yyyy")</td>
+                        <td>
+                            @if (dcm.Status == true)
+                            {
+                                <span>Khả dụng</span>
+                            }
+                            else
+                            {
+                                <span>Không khả dụng</span>
+                            }
+                        </td>
+                        <td class="TableView_Function">
+                            <a asp-controller="Document" asp-action="Edit" asp-route-id="@dcm.Id" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i> Edit</a>
+                            <a asp-controller="Document" asp-action="Delete" asp-route-id="@dcm.Id" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i> Delete </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="clearfix">
+            <div class="clearfix">
+                @Html.PagedListPager(Model, pageNumber => Url.Action("Index", "Document", new { pageNumber = pageNumber }))
+            </div>
+        </div>
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <a asp-controller="Document" asp-action="Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add new</span></a>
+                    <a asp-controller="Document" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+                    <a asp-controller="Document" asp-action="Index" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i> <span>Refresh</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery to handle the "Select All" functionality -->
+@section Scripts {
+    <script>
+        function resetFilters() {
+            document.getElementById("description").value = "";
+            document.getElementById("Status").selectedIndex = 0;
+            document.getElementById("timeRange").value = "";
+            window.location.href = '@Url.Action("Index", "Video")';
+        }
+
+        // Select all checkbox logic
+        $(document).ready(function () {
+            $("#selectAll").click(function () {
+                $(".checkboxItem").prop("checked", this.checked);
+            });
+            $(".checkboxItem").click(function () {
+                $("#selectAll").prop("checked", $(".checkboxItem:checked").length === $(".checkboxItem").length);
+            });
+        });
+    </script>
+}

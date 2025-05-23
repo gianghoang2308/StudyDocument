@@ -1,0 +1,189 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+
+@{
+    ViewData["Title"] = "GellAllImage";
+    Layout = "_Layout";
+}
+<style>
+    .pagination-container {
+        padding: 20px 0;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .pagination {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .page-item {
+        margin: 0 5px;
+    }
+
+    .page-link {
+        background-color: #f8f9fa;
+        color: #007bff;
+        border: 1px solid #ddd;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+        .page-link:hover,
+        .page-link:focus {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+            text-decoration: none;
+        }
+
+    .page-item.active .page-link {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .page-item.disabled .page-link {
+        background-color: #f8f9fa;
+        color: #ccc;
+        pointer-events: none;
+    }
+
+    .page-item .fa {
+        font-size: 16px;
+        color: #007bff;
+    }
+
+     .page-item .fa:hover {
+      color: #0056b3;
+     }
+
+</style>
+<main>
+    <!-- Hero Section-->
+    <section class="inner-hero inner-hero3">
+        <div class="container">
+            <div class="ih-content">
+                <h1 class=" wow fadeInUp" data-wow-delay=".4s">Blog</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb wow fadeInUp" data-wow-delay=".8s">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- /Hero Section-->
+    <!-- Blog Section-->
+    <section class="blog blog-3 inner-blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 order-md-1 order-2">
+                    <div class="row">
+                        @foreach (var img in (IPagedList<StudyDocument.Models.Image>)ViewBag.PagedImages)
+                        {
+                            <div class="col-md-6">
+                            <div class="single-blog">
+                                <a href="#">
+                                    <div class="sb-img">
+                                            @if (!string.IsNullOrEmpty(img.Link))
+                                            {
+                                                <img src="@Url.Content(img.Link)" alt="@img.Name Error" title="@img.Name" width="100" />
+
+                                            }
+                                            else if (!string.IsNullOrEmpty(img.Image1))
+                                            {
+                                                <img src="@Url.Content("~/uploads/images/" + img.Image1)" alt="@img.Name error" name="@img.Name" width="100" />
+                                            }
+                                            else
+                                            {
+                                                <span>No image</span>
+                                            }
+                                    </div>
+                                </a>
+                                <div class="sb-content">
+                                        <span>@img.CreateTime.ToString("dd-MM-yyyy") </span>
+                                    <a href="#">
+                                            <h3>@img.Name</h3>
+                                    </a>
+                                    <p>
+                                        When using it correctly, Social Media can be a very powerful and cost-efficient way to promote your
+                                        event. social media tips to promote your
+                                    </p>
+                                    <a asp-controller="Image" asp-action="Detail" asp-route-id="@img.Id">READ MORE</a>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    <!-- Phân Trang -->
+                    @Html.PagedListPager((IPagedList)ViewBag.PagedImages, page => Url.Action("GellAllImage", new { pageNumber = page }),
+                             new PagedListRenderOptions
+                    {
+                        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                        LinkToPreviousPageFormat = "<i class='fas fa-chevron-left'></i>",
+                        LinkToNextPageFormat = "<i class='fas fa-chevron-right'></i>",
+                        LinkToFirstPageFormat = "<i class='fas fa-angle-double-left'></i>",
+                        LinkToLastPageFormat = "<i class='fas fa-angle-double-right'></i>",
+                        ContainerDivClasses = new[] { "pagination-container" },
+                        UlElementClasses = new[] { "pagination justify-content-center" },
+                        LiElementClasses = new[] { "page-item" },
+                        PageClasses = new[] { "page-link" }
+                    })
+
+
+                </div>
+             
+                <div class="col-md-4 order-md-2 order-1">
+                    <div class="blog-sideber">
+                        @foreach (var item in ViewBag.RecentImages)
+                        {
+                            <div class="recent-post">
+                                <a asp-controller="Image" asp-action="Detail" asp-route-id="@item.Id">
+                                    <div class="single-recent-blog">
+                                        <div class="srb-img">
+                                            @if (!string.IsNullOrEmpty(item.Link))
+                                            {
+                                                <img src="@Url.Content(item.Link)" alt="@item.Name Error" title="@item.Name" width="100" />
+                                            }
+                                            else if (!string.IsNullOrEmpty(item.Image1))
+                                            {
+                                                <img src="@Url.Content("~/uploads/images/" + item.Image1)" alt="@item.Name error" name="@item.Name" width="100" />
+                                            }
+                                            else
+                                            {
+                                                <span>No image</span>
+                                            }
+                                        </div>
+                                        <div class="srb-text">
+                                            <h5>@item.Name</h5>
+                                            <span>@item.CreateTime.ToString("dd-MM-yyyy")</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+
+                        <div class="catagory">
+                            <h4>Chuyển đến trang</h4>
+
+                            <ul>
+                                <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                                <li><a Asp-controller="Image" asp-action="GellAllImage">Hình ảnh</a></li>
+                                <li><a Asp-controller="Video" asp-action="GetAllVideo">Video</a></li>
+                                <li><a Asp-controller="Document" asp-action="GetAllDocuemnt">Tài liệu</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- /Blog Section-->
+</main>
+

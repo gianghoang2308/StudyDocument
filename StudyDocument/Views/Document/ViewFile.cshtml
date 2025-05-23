@@ -1,0 +1,65 @@
+﻿@model StudyDocument.Models.Document
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
+@using System.IO
+
+@{
+    ViewData["Title"] = "View Document";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div>
+        @if (Model == null)
+        {
+            <p>Tài liệu không tồn tại.</p>
+        }
+        else
+        {
+            <!-- Kiểm tra loại tệp và hiển thị tùy thuộc vào loại tệp -->
+            @if (Model.FileType == "application/pdf")
+            {
+                <!-- Nếu là PDF, hiển thị trong iframe -->
+                <iframe src="@Url.Action("ViewFile", "Document", new { id = Model.Id })" width="100%" height="600px"></iframe>
+            }
+            else if (Model.FileType.StartsWith("image"))
+            {
+                <!-- Nếu là hình ảnh (JPEG, PNG, GIF, BMP, SVG, WEBP) -->
+                <img src="@Url.Action("ViewFile", "Document", new { id = Model.Id })" alt="@Model.Title" style="width:100%; max-height:800px; object-fit: contain;">
+            }
+            else if (Model.FileType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+            Model.FileType == "application/msword")
+            {
+                <!-- Nếu là tệp Word -->
+                <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=@Url.Content("~/uploads/documents/" + Model.File)" width="100" height="200" frameborder="0"></iframe>
+            }
+            else if (Model.FileType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                <!-- Nếu là tệp Excel -->
+                <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=@Url.Content("~/uploads/documents/" + Model.File)" width="100" height="200" frameborder="0"></iframe>
+            }
+            else if (Model.FileType == "application/vnd.openxmlformats-officedocument.presentationml.presentation")
+            {
+                <!-- Nếu là tệp PowerPoint -->
+                <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=@Url.Content("~/uploads/documents/" + Model.File)" width="100" height="200" frameborder="0"></iframe>
+            }
+            else if (Model.FileType == "text/plain" || Model.FileType == "text/csv")
+            {
+                <!-- Nếu là tệp văn bản hoặc CSV -->
+                <pre>@System.IO.File.ReadAllText(System.IO.Path.Combine(Env.WebRootPath, "uploads", "documents", Model.File))</pre>
+            }
+            else if (Model.FileType == "application/xml")
+            {
+                <!-- Nếu là tệp XML -->
+                <pre>@System.IO.File.ReadAllText(System.IO.Path.Combine(Env.WebRootPath, "uploads", "documents", Model.File))</pre>
+            }
+            else
+            {
+                <!-- Các loại tệp khác -->
+                <p>Tài liệu không thể xem trực tiếp. <a href="@Url.Action("ViewFile", "Document", new { id = Model.Id })" target="_blank">Tải về</a></p>
+            }
+        }
+    </div>
+
+    <!-- Nút quay lại danh sách tài liệu -->
+    <a href="@Url.Action("Index", "Document")" class="btn btn-secondary">Quay lại danh sách</a>
+</div>

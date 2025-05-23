@@ -1,0 +1,115 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@model StudyDocument.Models.Admin
+<div class="container-fluid">
+    <h4><strong>Thêm mới</strong></h4>
+
+    <form asp-action="Create" asp-controller="Admin" method="post" enctype="multipart/form-data">
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Admin" asp-action="Index"><b>Quay lại</b><i class='fas'>&#xf3e5;</i></a>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="number" class="form-control" asp-for="Id" hidden>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><b>Tên tài khoản</b></label>
+            <input type="text" class="form-control" asp-for="UserName" placeholder="Nhập vào tên tài khoản">
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><b>Họ và tên</b></label>
+            <input type="text" class="form-control" asp-for="FullName" placeholder="Nhập vào họ và tên">
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><b>Ảnh đại diện</b></label>
+            <input type="file" class="form-control" asp-for="Avatar" placeholder="Nhập vào ảnh đại diện">
+            <span asp-validation-for="Avatar" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><b>Mật khẩu</b></label>
+            <input type="text" class="form-control" asp-for="Password" placeholder="Nhập vào mật khẩu">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"> <b>Ngày sinh</b></label>
+            <input type="date" class="form-control" asp-for="DateOfBirth" placeholder="Nhập vào ngày tháng năm sinh">
+            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><b>Địa chỉ</b></label>
+            <input type="text" class="form-control" asp-for="Address" placeholder="Nhập vào địa chỉ">
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><b>Số điện thoại</b></label>
+            <input type="number" class="form-control" asp-for="Phone" placeholder="Nhập vào số điện thoại">
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Email</label>
+            <input type="text" class="form-control" asp-for="Email" placeholder="Nhập vào địa chỉ Email">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label asp-for="Gender"><b>Giới tính</b></label>
+            <select asp-for="Gender" class="form-control">
+                <option value="true" selected>Male</option>
+                <option value="false">Female</option>
+            </select>
+            <span asp-validation-for="Gender" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label asp-for="Status"><b>Trạng thái</b></label>
+            <select asp-for="Status" class="form-control">
+                <option value="true" selected>Active</option>
+                <option value="false">Inactive</option>
+            </select>
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+
+        <!-- Nút gửi -->
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Admin" asp-action="Index"> <b>Quay lại</b> <i class='fas'>&#xf3e5;</i></a>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+

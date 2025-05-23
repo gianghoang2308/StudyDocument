@@ -1,0 +1,113 @@
+﻿@model X.PagedList.IPagedList<StudyDocument.Models.Image>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-fluid">
+    <h2>Ảnh</h2>
+    <div class="table-wrapper">
+        <!-- Form chứa các bộ lọc -->
+        <form method="GET" action="@Url.Action("Index", "Image")">
+            <h2 style="text-align:center">Search Menu</h2>
+            <div class="row mb-3">
+                <!-- Input lọc theo tên ảnh -->
+                <div class="col-md-3">
+                    <label for="imageName">Tên ảnh</label>
+                    <input type="text" id="imageName" name="imageName" class="form-control" placeholder="Nhập tên ảnh..." 
+                           value="@ViewBag.ImageName" />
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary mr-2">Search</button>
+                        <button type="reset" class="btn btn-secondary" onclick="resetFilters()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Table hiển thị ảnh -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="selectAll" />
+                    </th>
+                    <th>ID</th>
+                    <th>Tên ảnh</th>
+                    <th>Ảnh</th>
+                    <th>Thời gian tạo</th>
+                    <th>Trạng thái</th>
+                    <th>Cài đặt</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var img in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="checkboxItem" id="checkbox_@img.Id" name="options[]" value="@img.Id" />
+                        </td>
+                        <td>@img.Id</td>
+                        <td>@img.Name</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(img.Link))
+                            {
+                                <img src="@Url.Content(img.Link)" alt="@img.Name Error" title="@img.Name" width="100" />
+                            }
+                            else if (!string.IsNullOrEmpty(img.Image1))
+                            {
+                                <img src="@Url.Content("~/uploads/images/" + img.Image1)" alt="@img.Name error" title="@img.Name" width="100" />
+                            }
+                            else
+                            {
+                                <span>No image</span>
+                            }
+                        </td>
+                        <td>@img.CreateTime.ToString("dd-MM-yyyy")</td>
+                        <td>
+                            @(img.Status ? "Khả dụng" : "Không khả dụng")
+                        </td>
+                        <td>
+                            <a asp-controller="Image" asp-action="Edit" asp-route-id="@img.Id" class="edit" data-toggle="modal">
+                                <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                            </a>
+                            <a asp-controller="Image" asp-action="Delete" asp-route-id="@img.Id" class="delete" data-toggle="modal">
+                                <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Phân Trang -->
+        <div class="clearfix">
+            <ul class="pagination">
+                @Html.PagedListPager(Model, pageNumber => Url.Action("Index", "Image", new { pageNumber }))
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Reset filter về mặc định
+        function resetFilters() {
+            document.getElementById("imageName").value = "";
+            document.getElementById("Status").selectedIndex = 0;
+            document.getElementById("timeRange").value = "";
+            window.location.href = '@Url.Action("Index", "Image")';
+        }
+
+        // Chọn / bỏ chọn tất cả checkbox trong bảng
+        document.getElementById("selectAll").addEventListener("click", function () {
+            var checkboxes = document.querySelectorAll(".checkboxItem");
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+    </script>
+}

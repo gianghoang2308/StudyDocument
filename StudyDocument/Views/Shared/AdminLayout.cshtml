@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<style>
+    .user-box {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        background-color: #f4f6f9;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+        .user-box .image img {
+            border: none;
+            border-radius: 50%; /* hình tròn */
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+        }
+
+        .user-box .info {
+            margin-left: 10px;
+            font-weight: 500;
+        }
+</style>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <!--Chèn link css và js-->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/css_admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/AdminMaster/css_admin.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <!--Select all id in check box-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--Elfinder cc-->
+    <link rel="stylesheet" href="~/lib/jqueryui/themes/base/theme.css" />
+    <link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="~/elfinder/css/elfinder.full.css" />
+    <link rel="stylesheet" href="~/elfinder/css/theme.min.css" />
+    <link rel="stylesheet" href="~/elfinder-material-theme/Material/css/theme-gray.css" />
+    <!--Script Ckeditor-->
+    <script type="text/javascript" src="~/lib/jqueryui/jquery-ui.min.js"></script>
+    <script src="~/elfinder/js/elfinder.min.js"></script>
+    <script src="~/ckeditor/ckeditor.js"></script>
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BKAP</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="dropdown text-align-right">
+                    <button class="dropbtn">Nhóm 1</button>
+                    <div class="dropdown-content">
+                        <a class="" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
+                        <a class="" asp-area="" asp-controller="Viewer" asp-action="GetLoginStats">Lượt xem</a>
+                        <a class="" asp-area="" asp-controller="Advertise" asp-action="Index">Quảng cáo</a>
+                        <a class="" asp-area="" asp-controller="Comment" asp-action="Index">Bình Luận</a>
+                    </div>
+                </div>
+                <div class="dropdown text-align-right">
+                    <button class="dropbtn">Nhóm 2</button>
+                    <div class="dropdown-content">
+                        <a class="" asp-area="" asp-controller="Config" asp-action="Index">Cấu hình</a>
+                        <a class="" asp-area="" asp-controller="Contact" asp-action="Index">Liên lạc</a>
+                        <a class="" asp-area="" asp-controller="User" asp-action="Index">Người dùng</a>
+                        <a class="" asp-area="" asp-controller="Page" asp-action="Index">Tên menu</a>
+
+                    </div>
+                </div>
+                <div class="dropdown text-align-right">
+                    <button class="dropbtn">Nhóm 3</button>
+                    <div class="dropdown-content">
+                        <a class="" asp-area="" asp-controller="GroupNews" asp-action="Index">Nhóm tin</a>
+                        <a class="" asp-area="" asp-controller="News" asp-action="Index">Tin tức</a>
+                        <a class="" asp-area="" asp-controller="Category" asp-action="Index">Phân loại</a>
+                        <a class="" asp-area="" asp-controller="Image" asp-action="Index">Ảnh</a>
+                        <a class="" asp-area="" asp-controller="Video" asp-action="Index">Video</a>
+                        <a class="" asp-area="" asp-controller="Document" asp-action="Index">Tài liệu</a>
+                    </div>
+                </div>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                    @if (User.IsInRole("AdminRole"))
+                    {
+                        <a class="btn btn-danger" asp-controller="Admin" asp-action="Logout">Đăng xuất Admin</a>
+                    }
+                    else if (User.IsInRole("UserRole"))
+                    {
+                        <a class="btn btn-danger" asp-controller="User" asp-action="Logout">Đăng xuất User</a>
+                    }
+                    <div class="user-box">
+                        <div class="image">
+                            <img src="/@User.Claims.FirstOrDefault(c => c.Type == "avatar")?.Value" ...>
+                        </div>
+                        <div class="info">
+                            <a href="#" class="d-block">
+                                @User.Claims.FirstOrDefault(c => c.Type == "fullname")?.Value (@User.Identity.Name)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+</body>
+</html>
+@RenderSection("Scripts", required: false)
+<!-- jQuery to handle the "Select All" functionality -->
+<script>
+    $(document).ready(function() {
+        // Select all checkboxes when "Select All" checkbox is clicked
+        $("#selectAll").click(function() {
+            $(".checkboxItem").prop("checked", this.checked);  // Check all checkboxes
+        });
+
+        // Update the "Select All" checkbox state based on individual checkboxes
+        $(".checkboxItem").click(function() {
+            // If all checkboxes are checked, check the "Select All" checkbox
+            $("#selectAll").prop("checked", $(".checkboxItem:checked").length === $(".checkboxItem").length);
+        });
+    });
+</script>

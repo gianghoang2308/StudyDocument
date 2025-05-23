@@ -1,0 +1,85 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@model StudyDocument.Models.Contact
+<div class="container">
+    <h4><strong>Thêm mới</strong></h4>
+
+    <form asp-action="Create" asp-controller="Contact" method="post" enctype="multipart/form-data">
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Contact" asp-action="Index"> <b>Quay lại</b> <i class='fas'>&#xf3e5;</i></a>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="number" class="form-control" asp-for="Id" hidden>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Name</label>
+            <input type="text" class="form-control" asp-for="Name" placeholder="Nhập vào tên">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Email</label>
+            <input type="email" class="form-control" asp-for="Email" placeholder="Nhập vào địa chỉ Email">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Address</label>
+            <input type="text" class="form-control" asp-for="Address" placeholder="Nhập vào địa chỉ">
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Phone</label>
+            <input type="tel" class="form-control" asp-for="Phone" placeholder="Nhập vào số điện thoại">
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Message</label>
+            <textarea type="text" class="form-control" asp-for="Message" placeholder="Nhập vào Message"></textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+
+        <!-- Nút gửi -->
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Contact" asp-action="Index"> <b>Quay lại</b> <i class='fas'>&#xf3e5;</i></a>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts {
+
+
+    <script type="text/javascript">
+        CKEDITOR.replace('Message');
+    </script>
+}
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+
+

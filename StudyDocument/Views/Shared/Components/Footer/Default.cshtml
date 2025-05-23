@@ -1,0 +1,63 @@
+﻿<!-- Footer Section-->
+<footer class="footer-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="subscribe">
+                    <h1>Đăng ký theo dõi và nhận thông báo về những video, ảnh và tài liệu mới nhất của chúng tôi!!!</h1>
+                    <form asp-action="SendMail" asp-controller="Email" method="post">
+
+                        <input type="email" name="email" class="form-control" placeholder="Nhập vào địa chỉ email"
+                               onfocus="this.placeholder=''" onblur="this.placeholder='Nhập vào địa chỉ email'">
+                        <button type="submit" class="btn btn-primary sub-btn">Đăng ký theo dõi</button>
+                    </form>
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                    }
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                    }
+                </div>
+
+
+                <div class="footer-nav">
+                    <ul>
+                        <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                        <li><a asp-controller="Image" asp-action="GellAllImage">Hình ảnh</a> </li>
+                        <li><a asp-controller="Video" asp-action="GetAllVideo">Video</a></li>
+                        <li><a asp-controller="Document" asp-action="GetAllDocument">Tài liệu</a></li>
+                        <li><a asp-controller="Home" asp-action="Contact">Liên hệ</a></li>
+                        <li><a asp-controller="Home" asp-action="About">Về chúng tôi</a></li>
+                        <li><a asp-controller="Home" asp-action="FAQ">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-bottom">
+                    <div class="logo">
+                        <a href="#"><img src="~/assets/img/studyPlatform.jpg" alt=""></a>
+                    </div>
+                    @foreach (var cf in ViewBag.Configs)
+                   {
+                        <div class="fb-text">
+                            <p>
+                                @cf.Coppyright <a href="https://voidcoders.com/" target="blank">LearnAndPlay</a>
+                            </p>
+                        </div>
+                        <ul>
+                            <li><a href="@cf.SocialLink1" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="@cf.SocialLink2" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="@cf.SocialLink3" target="_blank"><i class="fab fa-threads"></i></a></li>
+                            <li><a href="@cf.SocialLink4" target="_blank"><i class="fab fa-youtube"></i></a></li>
+                            <li><a href="@cf.SocialLink5" target="_blank"><i class="fab fa-github"></i></a></li>
+                            <li><a href="@cf.SocialLink6" target="_blank"><i class="fab fa-x-twitter"></i></a></li>
+                        </ul>
+                   }
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- /Footer Section-->

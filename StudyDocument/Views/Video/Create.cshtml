@@ -1,0 +1,107 @@
+﻿@{
+    Layout = "AdminLayout";
+    ViewData["Title"] = "CreateVideo";
+}
+@model StudyDocument.Models.Video
+
+
+ <div class="container-fluid">
+    <h4><strong>Thêm mới</strong></h4>
+
+    <form asp-action="Create" asp-controller="Video" method="post" enctype="multipart/form-data">
+        <!-- Nút gửi -->
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Video" asp-action="Index"> <b>Quay lại</b>></a>
+                    <button type="submit" class="btn btn-success"><b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+        <input type="number" class="form-control" asp-for="Id" hidden />
+
+        <div class="mb-3">
+            <label class="form-label">Tiêu đề</label>
+            <input type="text" class="form-control" asp-for="Title" placeholder="Nhập vào tiêu đề"/>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Mô tả</label>
+            <textarea class="form-control" asp-for="Description"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CategoryId">Tên loại</label>
+            <select id="CategoryId" class="form-control" name="CategoryId">
+                <option value="">--Select--</option>
+                @foreach (var cat in ViewBag.CategoryList)
+                {
+                    <option value="@cat.Id">@cat.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Chọn video để tải lên</label>
+            <select id="videoTypeSelect" class="form-control" onchange="toggleInputFields()">
+                <option value="">-- Select Video Type --</option>
+                <option value="link">Link</option>
+                <option value="upload">Upload File</option>
+            </select>
+        </div>
+
+
+        <div id="linkInput" class="mb-3">
+            <label class="form-label">Link</label>
+            <input class="form-control" asp-for="Link" id="linkEditor" />
+        </div>
+
+        <div id="videoInput" class="mb-3">
+            <label class="form-label">Upload File</label>
+            <input type="file" class="form-control" asp-for="Video1" id="videoEditor" />
+        </div>
+
+        <!-- Nút gửi -->
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="Video" asp-action="Index"> <b>Quay lại</b>></a>
+                    <button type="submit" class="btn btn-success"><b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+@section Scripts {
+    <script>
+        function toggleInputFields() {
+            var selectedType = document.getElementById("videoTypeSelect").value;
+            var linkDiv = document.getElementById("linkInput");
+            var videoDiv = document.getElementById("videoInput");
+
+            if (selectedType === "link") {
+                linkDiv.style.display = "block";
+                videoDiv.style.display = "none";
+            } else if (selectedType === "upload") {
+                linkDiv.style.display = "none";
+                videoDiv.style.display = "block";
+            } else {
+                linkDiv.style.display = "none";
+                videoDiv.style.display = "none";
+            }
+        }
+         toggleInputFields();
+    </script>
+}
+
+

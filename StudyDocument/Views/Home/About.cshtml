@@ -1,0 +1,132 @@
+﻿@{
+    ViewData["Title"] = "About";
+    Layout = "_Layout";
+}
+<style>
+    .avatar {
+        width: 300px !important;
+        height: 400px !important;
+    }
+</style>
+<main>
+    <!-- Hero Section-->
+    <section class="inner-hero inner-hero2">
+        <div class="container">
+            <div class="ih-content">
+                <h1 class=" wow fadeInUp" data-wow-delay=".4s">Về chúng tôi</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb wow fadeInUp" data-wow-delay=".8s">
+                        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Home">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a asp-controller="Home" asp-action="About">Về chúng tôi</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- /Hero Section-->
+    <!-- Event Outcome Section-->
+    <section class="event-outcome eo-inner">
+        <span class="wow fadeInUp" data-wow-delay=".5s">Features</span>
+        <h1 class="wow fadeInUp" data-wow-delay=".5s">Our Features</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <a asp-controller="Video" asp-action="GetAllVideo">
+                        <div class="single-e-out wow fadeInUp" data-wow-delay=".3s">
+                            <span class="flaticon-microphone f-icon"></span>
+                            <h5>Video</h5>
+                            <p>Cung cấp video phục vụ học tập và giải trí</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a asp-controller="Document" asp-action="GetAllDocument">
+                        <div class="single-e-out wow fadeInUp" data-wow-delay=".6s">
+                            <span class="flaticon-collaboration f-icon"></span>
+                            <h5>Tài liệu</h5>
+                            <p>Cung cấp tài liệu học tập</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a asp-controller="Image" asp-action="GellAllImage">
+                        <div class="single-e-out wow fadeInUp" data-wow-delay=".9s">
+                            <span class="flaticon-confetti f-icon"></span>
+                            <h5>Hình ảnh</h5>
+                            <p>Nơi chia sẻ hình ảnh về mọi thứ</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a asp-controller="Home" asp-for="About">
+                        <div class="single-e-out wow fadeInUp" data-wow-delay=".3s">
+                            <span class="flaticon-coffee-cup f-icon"></span>
+                            <h5>Về chúng tôi</h5>
+                            <p>Đội ngũ hình thành và phát triển website này</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a asp-controller="Home" asp-action="Contact">
+                        <div class="single-e-out wow fadeInUp" data-wow-delay=".6s">
+                            <span class="flaticon-bus f-icon"></span>
+                            <h5>Liên hệ</h5>
+                            <p>Hãy liên hệ với chúng tôi để phát triển website</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="https://maps.app.goo.gl/CGzjnzjMEudEubv8A">
+                        <div class="single-e-out wow fadeInUp" data-wow-delay=".9s">
+                            <span class="flaticon-location f-icon"></span>
+                            <h5>Địa chỉ</h5>
+                            <p>Đây là địa chỉ của chúng tôi</p>
+                        </div>
+                   </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /Event Outcome Section-->
+    <!-- Team Section-->
+    <section class="our-team ot-inner">
+        <div class="ot-top">
+            <span>Đội ngũ quản trị viên</span>
+            <h1>Những người đứng sau  </h1>
+            <h1>Study Platform</h1>
+        </div>
+        <div class="container">
+            <div class="row">
+                @foreach(var admin in ViewBag.AdminList)
+                {
+                    <div class="col-md-4">
+                        <div class="single-team-member">
+                            <div class="stm-img wow fadeInUp" data-wow-delay=".3s">
+                                <img src="@Url.Content("~/uploads/avatars/" + admin.Avatar)" alt="@admin.FullName Error" title="@admin.FullName" class="avatar">
+
+                                @foreach(var cf in ViewBag.ConfigList)
+                                {
+                                    <div class="stm-icon">
+                                        <ul>
+                                            <li><a href="@cf.SocialLink1"><i class="fab fa-facebook-f"></i></a></li>
+                                            <li><a href="@cf.SocialLink6"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="@cf.SocialLink5"><i class="fab fa-linkedin-in"></i></a></li>
+                                            <li><a href="@cf.SocialLink2"><i class="fab fa-instagram"></i></a></li>
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                            <div class="stm-text wow fadeInDown" data-wow-delay=".5s">
+                                <h4>@admin.FullName</h4>
+                                <p>CEO & Founder</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+    <!-- /Team Section-->
+</main>
+
+

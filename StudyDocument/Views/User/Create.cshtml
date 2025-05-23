@@ -1,0 +1,144 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@model StudyDocument.Models.User
+<div class="container">
+    <h4><strong>Thêm mới</strong></h4>
+
+    <form asp-action="Create" asp-controller="User" method="post" enctype="multipart/form-data">
+        <!-- Nút gửi -->
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="User" asp-action="Index"> <b>Quay lại</b>></a>
+                    <button type="submit" class="btn btn-success"><b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="number" class="form-control" asp-for="Id" hidden>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong>Account người dùng</strong></label>
+            <input type="text" class="form-control" asp-for="UserName" placeholder="Nhập vào account người dùng">
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong>Họ và tên</strong></label>
+            <input type="text" class="form-control" asp-for="FullName" placeholder="Nhập vào họ và tên">
+            <span asp-validation-for="FullName" class="text-danger"></span>
+
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong>Mật khẩu</strong></label>
+            <input type="text" class="form-control" asp-for="Password" placeholder="Nhập vào mật khẩu">
+            <span asp-validation-for="Password" class="text-danger"></span>
+
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong>Ngày sinh</strong></label>
+            <input type="date" class="form-control" asp-for="DateOfBirth" placeholder="Nhập vào ngày sinh">
+            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong>Địa chỉ</strong></label>
+            <input type="text" class="form-control" asp-for="Address" placeholder="Nhập vào địa chỉ">
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong>Email</strong></label>
+            <input type="email" class="form-control" asp-for="Email" placeholder="Nhập vào Email">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong>Số điện thoại</strong></label>
+            <input type="tel" class="form-control" asp-for="Phone" placeholder="Nhập vào số điện thoại">
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label"><strong>CCCD / CMND</strong></label>
+            <input type="number" class="form-control" asp-for="IdCard" placeholder="Nhập vào CCCD/ CMND">
+            <span asp-validation-for="IdCard" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label asp-for="PlaceOfIssue" class="form-label"><strong>Nơi cấp</strong></label>
+            <select asp-for="PlaceOfIssue" class="form-control" asp-items="ViewBag.IssuePlaces">
+            </select>
+            <span asp-validation-for="PlaceOfIssue" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+        <label for="" class="form-label"><strong>Ngày cấp</strong></label>
+        <input type="date" class="form-control" asp-for="DateOfIssue" placeholder="Enter DateOfIssue">
+            <span asp-validation-for="DateOfIssue" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label asp-for="Gender">Giới tính</label>
+            <select asp-for="Gender" class="form-control">
+                <option value="true" selected>Nam</option>
+                <option value="false">Nữ</option>
+            </select>
+            <span asp-validation-for="Gender" class="text-danger"></span>
+        </div>
+    
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Ảnh đại diện</label>
+            <input type="file" class="form-control" asp-for="Avatar" placeholder="Nhập vào ảnh đại diện">
+            <span asp-validation-for="Avatar" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Ảnh cung cấp thông tin 1</label>
+            <input type="file" class="form-control" asp-for="Image1" placeholder="Nhập vào ảnh cung cấp thông tin 1">
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Ảnh cung cấp thông tin 2</label>
+            <input type="file" class="form-control" asp-for="Image2" placeholder="Nhập vào ảnh cung cấp thông tin 2">
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="" class="form-label">Ảnh cung cấp thông tin 3</label>
+            <input type="file" class="form-control" asp-for="Image3" placeholder="Nhập vào ảnh cung cấp thông tin 3">
+        </div>
+
+        <!-- Nút gửi -->
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2 style="color:black"></h2>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary" asp-controller="User" asp-action="Index"> <b>Quay lại</b>></a>
+                    <button type="submit" class="btn btn-success"><b>Lưu lại</b> </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+

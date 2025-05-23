@@ -1,0 +1,187 @@
+﻿@model X.PagedList.IPagedList<StudyDocument.Models.Comment>
+@using X.PagedList.Mvc.Core;
+
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-fluid">
+    <h2>Comment</h2>
+    <div class="table-wrapper">
+
+        <form method="GET" action="@Url.Action("Index", "Comment")">
+            <h2 style="text-align:center">Thanh tìm kiếm</h2>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="imageId">Loại ảnh</label>
+                    <select id="imageId" name="imageName" class="form-control">
+                        <option value="">--Chọn--</option>
+                        @foreach (var img_id in ViewBag.ImageList)
+                        {
+                            <option value="@img_id.Id">@img_id.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="documentID">Loại tài liệu</label>
+                    <select id="documentID" name="documentName" class="form-control">
+                        <option value="">--Chọn--</option>
+                        @foreach (var document_id in ViewBag.DocumentList)
+                        {
+                            <option value="@document_id.Id">@document_id.Title</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="videoID">Loại video</label>
+                    <select id="videoID" name="videoName" class="form-control">
+                        <option value="">--Chọn--</option>
+                        @foreach (var video_id in ViewBag.VideoList)
+                        {
+                            <option value="@video_id.Id">@video_id.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <!-- Hàng chứa các trường tìm kiếm theo tiêu đề, thời gian và trạng thái -->
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="userId">Tên người dùng</label>
+                    <select id="userId" name="userName" class="form-control">
+                        <option value="">--Chọn--</option>
+                        @foreach (var user_id in ViewBag.UserList)
+                        {
+                            <option value="@user_id.Id">@user_id.FullName</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="Status">Trạng thái</label>
+                        <select id="Status" name="Active" class="form-control">
+                            <option value="">--Chọn--</option>
+                            <option value=true> Khả dụng </option>
+                            <option value=false> Không khả dụng </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="timeRange">Thời gian:</label>
+                        <input type="date" id="timeRange" name="timeRange" class="form-control" value="@ViewBag.TimeRange">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary mr-2" onclick="submitForm()">Select</button>
+                        <button type="reset" class="btn btn-secondary" onclick="resetFilters()">Cancel</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <a asp-controller="Comment" asp-action="Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <b>Thêm mới</b></a>
+                    <a asp-controller="Comment" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <b>Xóa</b></a>
+                    <a asp-controller="Comment" asp-action="Index" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i><b>Tải lại trang</b></a>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="custom-checkbox">
+                            <input type="checkbox" id="selectAll" />
+                            <label for="selectAll"></label>
+                        </span>
+                    </th>
+                    <th>ID</th>
+                    <th>Tên người dùng</th>
+                    <th>Nội dung comment</th>
+                    <th>Thời gian</th>
+                    <th>Trạng thái</th>
+                    <th>Cài đặt</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cmt in Model)
+                {
+                    <tr>
+                        <td>
+                            <span class="custom-checkbox">
+                                <input type="checkbox" id="checkbox1" name="options[]" value="1" />
+                                <label for="checkbox1"></label>
+                            </span>
+                        </td>
+                        <td>@cmt.Id</td>
+                        <td>@cmt.User.FullName</td>
+                        <td>@cmt.Message</td>
+                        <td>@cmt.Date.ToString("dd-MM-yyyyy")</td>
+                        <td>@if(cmt.Status == true)
+                            {
+                                <span>Active</span>
+                            }
+                            else
+                            {
+                                <span>Inactive</span>
+                            }
+                        </td>
+                        
+                        <td class="TableView_Function">
+                            <a asp-controller="Comment" asp-action="Edit" asp-route-id="@cmt.Id" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Sửa">&#xE254;</i></a>
+                            <a asp-controller="Comment" asp-action="Delete" asp-route-id="@cmt.Id" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Xóa">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <!-- Phân Trang -->
+        <div class="clearfix">
+            <ul class="pagination">
+                <li class="page-item">@Html.PagedListPager(Model, pageNumber => Url.Action("Index", "Comment", new { pageNumber = pageNumber }))</li>
+            </ul>
+        </div>
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <a asp-controller="Comment" asp-action="Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <b>Thêm mới</b></a>
+                    <a asp-controller="Comment" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <b>Xóa</b></a>
+                    <a asp-controller="Comment" asp-action="Index" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i><b>Tải lại trang</b></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function resetFilters() {
+        document.getElementById("imageId").value = "";
+        document.getElementById("documentID").value = "";
+        document.getElementById("videoID").value = "";
+        document.getElementById("newsId").value = "";
+        document.getElementById("userId").value = "";
+        document.getElementById("Status").value = "";
+        document.getElementById("timeRange").value = "";
+
+        document.querySelector('form').submit();
+    }
+    function submitForm() {
+        document.querySelector('form').submit();
+    }
+</script>
+

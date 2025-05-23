@@ -1,0 +1,135 @@
+﻿@model X.PagedList.IPagedList<StudyDocument.Models.Video>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+
+@{
+    Layout = "AdminLayout";
+    ViewData["Title"] = "VideoPage";
+}
+
+<div class="container-fluid">
+    <h2>Video</h2>
+    <div class="table-wrapper">
+        <!-- Filter Form -->
+        <form method="GET" action="@Url.Action("Index", "Video")">
+            <h2 style="text-align:center">Thanh tìm kiếm</h2>
+            <div class="row mb-3">
+
+                <!-- Description Filter Textbox -->
+                <div class="col-md-3">
+                    <label for="description">Mô tả (Description)</label>
+                    <input type="text" id="description" name="description" class="form-control" 
+                           value="@ViewBag.DescriptionFilter" placeholder="Nhập mô tả..." />
+                </div>
+
+                <!-- Buttons -->
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary mr-2">Lọc</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetFilters()">Hủy</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Table listing videos -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="custom-checkbox">
+                            <input type="checkbox" id="selectAll" />
+                            <label for="selectAll"></label>
+                        </span>
+                    </th>
+                    <th>ID</th>
+                    <th>Video</th>
+                    <th>Phân loại</th>
+                    <th>Loại video</th>
+                    <th>Tiêu đề</th>
+                    <th>Mô tả</th>
+                    <th>Trạng thái</th>
+                    <th>Thời gian tạo</th>
+                    <th>Cài đặt</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var video in Model)
+                {
+                    <tr>
+                        <td>
+                            <span class="custom-checkbox">
+                                <input type="checkbox" class="checkboxItem" id="checkbox_@video.Id" name="options[]" value="@video.Id" />
+                                <label for="checkbox_@video.Id"></label>
+                            </span>
+                        </td>
+                        <td>@video.Id</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(video.Link))
+                            {
+                                <iframe width="200" height="150"
+                                        src="@video.Link"
+                                        title="@video.Title"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        referrerpolicy="strict-origin-when-cross-origin"
+                                        allowfullscreen>
+                                </iframe>
+                            }
+                            else if (video.VideoData != null && video.VideoData.Length > 0)
+                            {
+                                var base64Video = Convert.ToBase64String(video.VideoData);
+                                var mimeType = video.VideoType ?? "video/mp4";
+                                <video width="200" height="150" controls>
+                                    <source src="data:@mimeType;base64,@base64Video" type="@mimeType" />
+                                </video>
+                            }
+                            else
+                            {
+                                <span>Không có video để hiển thị</span>
+                            }
+                        </td>
+                        <td>@video.Category.Name</td>
+                        <td>@video.VideoType</td>
+                        <td>@video.Title</td>
+                        <td>@video.Description</td>
+                        <td>
+                            @(video.Status ? "Active" : "Inactive")
+                        </td>
+                        <td>@video.CreateTime.ToString("dd/MM/yyyy")</td>
+                        <td class="TableView_Function">
+                            <a asp-controller="Video" asp-action="Edit" asp-route-id="@video.Id" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a asp-controller="Video" asp-action="Delete" asp-route-id="@video.Id" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Phân Trang -->
+        <div class="clearfix">
+            <ul class="pagination">
+                @Html.PagedListPager(Model, pageNumber => Url.Action("Index", "Image", new { pageNumber }))
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function resetFilters() {
+            document.getElementById("description").value = "";
+            document.getElementById("Status").selectedIndex = 0;
+            document.getElementById("timeRange").value = "";
+            window.location.href = '@Url.Action("Index", "Video")';
+        }
+
+        // Select all checkbox logic
+        $(document).ready(function () {
+            $("#selectAll").click(function () {
+                $(".checkboxItem").prop("checked", this.checked);
+            });
+            $(".checkboxItem").click(function () {
+                $("#selectAll").prop("checked", $(".checkboxItem:checked").length === $(".checkboxItem").length);
+            });
+        });
+    </script>
+}

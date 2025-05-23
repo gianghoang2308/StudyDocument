@@ -1,0 +1,131 @@
+﻿@model X.PagedList.IPagedList<StudyDocument.Models.Admin>
+@using X.PagedList.Mvc.Core;
+@{
+	Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+	<h2>Thông tin admin</h2>
+	<div class="table-wrapper">
+		<div class="table-title">
+			<div class="row">
+				<div class="col-sm-6">
+				</div>
+				<div class="col-sm-6">
+					<a asp-controller="Admin" asp-action="Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Thêm mới</span></a>
+					<a asp-controller="Admin" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Xóa</span></a>
+					<a asp-controller="Admin" asp-action="Index" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i><span>Tải lại trang</span></a>
+				</div>
+			</div>
+		</div>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>
+						<span class="custom-checkbox">
+							<!-- "Select All" checkbox -->
+							<input type="checkbox" id="selectAll" />
+							<label for="selectAll"></label>
+						</span>
+					</th>
+					<th>Id</th>
+					<th>Tên tài khoản</th>
+					<th>Họ và tên</th>
+					<th>Mật khẩu</th>
+					<th>Ngày sinh</th>
+					<th>Địa chỉ</th>
+					<th>Email</th>
+					<th>Điện thoại</th>
+					<th>Giới tính</th>
+					<th>Trạng thái</th>
+					<th>Ngày tạo</th>
+					<th>Settings</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var cat in Model)
+				{
+					<tr>
+						<td>
+							<span class="custom-checkbox">
+								<!-- Individual checkboxes -->
+								<input type="checkbox" class="checkboxItem" id="checkbox_@cat.Id" name="options[]" value="@cat.Id" />
+								<label for="checkbox_@cat.Id"></label>
+							</span>
+						</td>
+						<td>@cat.Id</td>
+						<td>@cat.UserName</td>
+						
+						<td>
+							<img src="~/uploads/avatars/@cat.Avatar" title="@cat.Avatar" alt="@cat.Avatar" width="150" height="200" />
+						</td>
+
+						<td>@cat.Password</td>
+						<td>@cat.DateOfBirth.ToString("dd/MM/yyyy")</td>
+						<td>@cat.Address</td>
+						<td>@cat.Email</td>
+						<td>@cat.Phone</td>
+						<td>
+							@if (cat.Gender == true)
+							{
+								<span>Nam</span>
+							}
+							else
+							{
+								<span>Nữ</span>
+							}
+						</td>
+						<td>
+							@if (cat.Status == true)
+							{
+								<span>Hoạt động</span>
+							}
+							else
+							{
+								<span>Không hoạt động</span>
+							}
+						</td>
+						<td>@cat.CreateTime.ToString("dd/MM/yyyy")</td>
+
+						<td class="TableView_Function">
+							<a asp-controller="Admin" asp-action="Edit" asp-route-id="@cat.Id" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Chỉnh sửa">&#xE254;</i></a>
+							<a asp-controller="Admin" asp-action="Delete" asp-route-id="@cat.Id" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Xóa">&#xE872;</i></a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		<!-- Phân Trang -->
+		<div class="clearfix">
+			<ul class="pagination">
+				<li class="page-item">@Html.PagedListPager(Model, pageNumber => Url.Action("Index", "Admin", new { pageNumber = pageNumber }))</li>
+			</ul>
+		</div>
+		<div class="table-title" style="margin-top:20px">
+			<div class="row">
+				<div class="col-sm-6">
+				</div>
+				<div class="col-sm-6">
+					<a asp-controller="Admin" asp-action="Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Thêm mới</span></a>
+					<a asp-controller="Admin" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Xóa</span></a>
+					<a asp-controller="Admin" asp-action="Index" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i> <span>Tải lại trang</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- jQuery to handle the "Select All" functionality -->
+<script>
+	$(document).ready(function() {
+		// Select all checkboxes when "Select All" checkbox is clicked
+		$("#selectAll").click(function() {
+			$(".checkboxItem").prop("checked", this.checked);  // Check all checkboxes
+		});
+
+		// Update the "Select All" checkbox state based on individual checkboxes
+		$(".checkboxItem").click(function() {
+			// If all checkboxes are checked, check the "Select All" checkbox
+			$("#selectAll").prop("checked", $(".checkboxItem:checked").length === $(".checkboxItem").length);
+		});
+	});
+</script>

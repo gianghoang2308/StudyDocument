@@ -1,0 +1,131 @@
+﻿@model X.PagedList.IPagedList<StudyDocument.Models.Config>
+@using X.PagedList.Mvc.Core
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <h2>Config</h2>
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-sm-6"></div>
+                <div class="col-sm-6 text-end">
+                    <a asp-controller="Config" asp-action="Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <b>Thêm mới</b></a>
+                    <a asp-controller="config" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i><b>Xóa</b></a>
+                    <a asp-controller="Config" asp-action="Index" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i><b>Tải lại trang</b></a>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nội dung</th>
+                    <th>Thông tin</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ad in Model)
+                {
+                    <tr>
+                        <td>Mail</td>
+                        <td>@ad.Mail</td>
+                    </tr>
+                    <tr>
+                        <td>Contact</td>
+                        <td>@ad.Contact</td>
+                    </tr>
+                    <tr>
+                        <td>Copyright</td>
+                        <td>@ad.Coppyright</td>
+                    </tr>
+                    <tr>
+                        <td>Title</td>
+                        <td>@ad.Title</td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td>@ad.Description</td>
+                    </tr>
+                    <tr>
+                        <td>Keyword</td>
+                        <td>@ad.Keyword</td>
+                    </tr>
+                    <tr>
+                        <td>Hotline</td>
+                        <td>@ad.Hotline</td>
+                    </tr>
+                    <tr>
+                        <td>Social Link 1</td>
+                        <td>@ad.SocialLink1</td>
+                    </tr>
+                    <tr>
+                        <td>Social Link 2</td>
+                        <td>@ad.SocialLink2</td>
+                    </tr>
+                    <tr>
+                        <td>Social Link 3</td>
+                        <td>@ad.SocialLink3</td>
+                    </tr>
+                    <tr>
+                        <td>Social Link 4</td>
+                        <td>@ad.SocialLink4</td>
+                    </tr>
+                    <tr>
+                        <td>Social Link 5</td>
+                        <td>@ad.SocialLink5</td>
+                    </tr>
+                    <tr>
+                        <td>Social Link 6</td>
+                        <td>@ad.SocialLink6</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center">
+                            <a asp-controller="Config" asp-action="Edit" asp-route-id="@ad.Id" class="btn btn-sm btn-warning" title="Sửa">
+                                <i class="material-icons">&#xE254;</i>
+                            </a>
+                            <a asp-controller="Config" asp-action="Delete" asp-route-id="@ad.Id" class="btn btn-sm btn-danger" title="Xóa">
+                                <i class="material-icons">&#xE872;</i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+        <!-- Phân Trang -->
+        <div class="clearfix">
+            <ul class="pagination">
+                <li class="page-item">@Html.PagedListPager(Model, pageNumber => Url.Action("Index", "Config", new { pageNumber = pageNumber }))</li>
+            </ul>
+        </div>
+        <div class="table-title" style="margin-top:20px">
+            <div class="row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6 text-end">
+                    <a asp-controller="Config" asp-action="Create" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <b>Thêm mới</b></a>
+                    <a asp-controller="config" asp-action="Delete" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i><b>Xóa</b></a>
+                    <a asp-controller="Config" asp-action="Index" class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-arrows-rotate"></i><b>Tải lại trang</b></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery: Chức năng "Chọn tất cả" -->
+<script>
+    $(document).ready(function () {
+        $("#selectAll").click(function () {
+            $(".checkboxItem").prop("checked", this.checked);
+        });
+
+        $(".checkboxItem").click(function () {
+            $("#selectAll").prop("checked", $(".checkboxItem:checked").length === $(".checkboxItem").length);
+        });
+    });
+</script>
